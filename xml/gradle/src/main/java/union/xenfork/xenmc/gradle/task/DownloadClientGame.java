@@ -6,7 +6,7 @@ import org.gradle.api.tasks.TaskAction;
 import java.io.File;
 import java.io.IOException;
 
-import static union.xenfork.xenmc.gradle.util.MinecraftImpl.*;
+import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.*;
 import static union.xenfork.xenmc.gradle.util.Other.fileVerify;
 import static union.xenfork.xenmc.gradle.util.Other.getLocalJar;
 

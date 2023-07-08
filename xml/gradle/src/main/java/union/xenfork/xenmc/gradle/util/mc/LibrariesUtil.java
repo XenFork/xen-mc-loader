@@ -1,4 +1,4 @@
-package union.xenfork.xenmc.gradle.util;
+package union.xenfork.xenmc.gradle.util.mc;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -8,9 +8,8 @@ import union.xenfork.xenmc.gradle.XenMcGradleExtension;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import static union.xenfork.xenmc.gradle.util.MinecraftImpl.getJson;
+import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.getJson;
 
 public class LibrariesUtil {
     public static List<String> getLibraries(XenMcGradleExtension extension) {

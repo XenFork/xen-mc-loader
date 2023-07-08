@@ -2,6 +2,7 @@ package union.xenfork.xenmc.gradle.config;
 
 import groovy.lang.GroovyObjectSupport;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Set;
 
@@ -33,7 +34,31 @@ public class MinecraftConfiguration extends GroovyObjectSupport {
     public String mainClass = "net.minecraft.launchwrapper.Launch";
     public Set<String> tweakClasses = Collections.emptySet();
 
+    public File mappingClientFile, mappingServerFile;
 
+    public void setTweakClasses(Set<String> tweakClasses) {
+        this.tweakClasses = tweakClasses;
+    }
+
+    public Set<String> getTweakClasses() {
+        return tweakClasses;
+    }
+
+    public File getMappingClientFile() {
+        return mappingClientFile;
+    }
+
+    public File getMappingServerFile() {
+        return mappingServerFile;
+    }
+
+    public void setMappingClientFile(File mappingClientFile) {
+        this.mappingClientFile = mappingClientFile;
+    }
+
+    public void setMappingServerFile(File mappingServerFile) {
+        this.mappingServerFile = mappingServerFile;
+    }
 
     /**
      * @apiNote can edit to mirror lib

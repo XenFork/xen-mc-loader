@@ -1,4 +1,4 @@
-package union.xenfork.xenmc.gradle.util;
+package union.xenfork.xenmc.gradle.util.mc;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static union.xenfork.xenmc.gradle.util.DownloadImpl.readString;
-import static union.xenfork.xenmc.gradle.util.MinecraftImpl.*;
+import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.*;
 import static union.xenfork.xenmc.gradle.util.OsSys.isMac;
 import static union.xenfork.xenmc.gradle.util.OsSys.isWin;
 

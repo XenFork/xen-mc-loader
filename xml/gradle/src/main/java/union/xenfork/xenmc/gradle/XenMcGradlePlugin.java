@@ -3,10 +3,11 @@ package union.xenfork.xenmc.gradle;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.jetbrains.annotations.NotNull;
-import union.xenfork.xenmc.gradle.task.DownloadAssets;
-import union.xenfork.xenmc.gradle.task.DownloadClientGame;
-import union.xenfork.xenmc.gradle.task.DownloadMapping;
-import union.xenfork.xenmc.gradle.util.LibrariesUtil;
+import union.xenfork.xenmc.gradle.task.*;
+import union.xenfork.xenmc.gradle.util.mc.LibrariesUtil;
+
+import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.getClientCleanFile;
+import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.getClientFile;
 
 public class XenMcGradlePlugin implements Plugin<Project> {
     @Override
@@ -32,25 +33,31 @@ public class XenMcGradlePlugin implements Plugin<Project> {
             }
 
             project.getPlugins().apply("java");
-
-            //idea plugin
             project.getPlugins().apply("idea");
 
             project.getTasks().create("downloadMapping", DownloadMapping.class);
             project.getTasks().create("downloadClient", DownloadClientGame.class);
             project.getTasks().create("downloadAssets", DownloadAssets.class);
+            project.getTasks().create("deobf", Deobf.class);
+            project.getTasks().create("obf", Obf.class);
+            project.getTasks().create("genIdeaRunConfiguration", GenerateIdeaRun.class);
             project.getTasks().getByName("idea")
                             .finalizedBy(
                                     project.getTasks().getByName("downloadMapping"),
                                     project.getTasks().getByName("downloadClient"),
-                                    project.getTasks().getByName("downloadAssets")
+                                    project.getTasks().getByName("downloadAssets"),
+                                    project.getTasks().getByName("deobf"),
+                                    project.getTasks().getByName("genIdeaRunConfiguration")
                             );
 
             dep(project, "org.ow2.asm", extension.asmVersion,
                     "asm", "asm-analysis", "asm-commons", "asm-tree", "asm-util"
             );
 
+            project.getTasks().getByName("compileJava").finalizedBy(project.getTasks().getByName("obf"));
 
+            project.getDependencies().add("compileOnly", project.getDependencies().create(project.files(getClientCleanFile(extension).getAbsolutePath())));
+            project.getDependencies().add("runtimeOnly", project.getDependencies().create(project.files(getClientFile(extension).getAbsolutePath())));
 
         });
     }

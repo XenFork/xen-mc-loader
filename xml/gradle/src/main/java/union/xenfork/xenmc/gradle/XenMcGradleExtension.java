@@ -39,6 +39,10 @@ public class XenMcGradleExtension {
         return mixins;
     }
 
+    public MixinConfiguration getMixins() {
+        return mixins;
+    }
+
     public File getUserCache() {
         return getUserCache("xenmc");
     }

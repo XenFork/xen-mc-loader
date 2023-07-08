@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static union.xenfork.xenmc.gradle.util.AssetsImpl.*;
+import static union.xenfork.xenmc.gradle.util.mc.AssetsImpl.*;
 import static union.xenfork.xenmc.gradle.util.DownloadImpl.readFile;
 import static union.xenfork.xenmc.gradle.util.Other.fileVerify;
 

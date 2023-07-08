@@ -1,4 +1,4 @@
-package union.xenfork.xenmc.gradle.util;
+package union.xenfork.xenmc.gradle.util.mc;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -57,6 +57,10 @@ public class MinecraftImpl {
 
     public static byte[] getClientJar(XenMcGradleExtension extension) {
         return readFile(getDownloadsJson(extension).getAsJsonObject().get("client").getAsJsonObject().get("url").getAsString());
+    }
+
+    public static File getClientCleanFile(XenMcGradleExtension extension) {
+        return new File(getGameDir(extension), extension.getMinecraft().version + File.separator + extension.getMinecraft().version + "-client-clean.jar");
     }
 
 }

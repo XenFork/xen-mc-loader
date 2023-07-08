@@ -9,19 +9,3 @@ allprojects {
         maven { url 'https://maven.enaium.cn' }
     }
 }
-
-subprojects {
-    publishing {
-        repositories {
-            mavenLocal()
-        }
-        publications {
-            java(MavenPublication) {
-                from components.java
-                groupId = maven_group
-                artifactId = archivesBaseName
-                version = version
-            }
-        }
-    }
-}

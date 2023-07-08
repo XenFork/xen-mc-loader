@@ -1,14 +1,12 @@
-package union.xenfork.xenmc.gradle.util;
+package union.xenfork.xenmc.gradle.util.mapping;
 
 import union.xenfork.xenmc.gradle.XenMcGradleExtension;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static union.xenfork.xenmc.gradle.util.DownloadImpl.readString;
-import static union.xenfork.xenmc.gradle.util.MinecraftImpl.getDownloadsJson;
+import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.getDownloadsJson;
 
 public class MappingImpl {
 

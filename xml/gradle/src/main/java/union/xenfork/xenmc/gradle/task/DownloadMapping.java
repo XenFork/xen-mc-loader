@@ -2,16 +2,15 @@ package union.xenfork.xenmc.gradle.task;
 
 import org.apache.commons.io.FileUtils;
 import org.gradle.api.tasks.TaskAction;
-import union.xenfork.xenmc.gradle.util.MappingImpl;
+import union.xenfork.xenmc.gradle.util.mapping.MappingImpl;
 import union.xenfork.xenmc.gradle.util.Other;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 
-import static union.xenfork.xenmc.gradle.util.MappingImpl.getClientMapping;
-import static union.xenfork.xenmc.gradle.util.MappingImpl.getClientMappingSha1;
+import static union.xenfork.xenmc.gradle.util.mapping.MappingImpl.getClientMapping;
+import static union.xenfork.xenmc.gradle.util.mapping.MappingImpl.getClientMappingSha1;
 
 public class DownloadMapping extends CTask {
     @TaskAction
