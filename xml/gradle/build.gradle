@@ -28,18 +28,3 @@ gradlePlugin {
 }
 
 targetCompatibility = sourceCompatibility = JavaVersion.VERSION_17
-
-publishing {
-    publications {
-        java(MavenPublication) {
-            from components.java
-            groupId = maven_group
-            artifactId = archivesBaseName
-            version = version
-        }
-    }
-
-    repositories {
-        mavenLocal() //上传至本地的maven仓库，也可以到远程库
-    }
-}
