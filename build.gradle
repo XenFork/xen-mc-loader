@@ -1,0 +1,10 @@
+allprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    group = maven_group
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}

@@ -1,0 +1,45 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'idea'
+}
+
+version = "xml-gd-$gradle_version"
+
+dependencies {
+    implementation gradleApi()
+    implementation('commons-codec:commons-codec:1.15')
+    implementation 'commons-io:commons-io:2.12.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation("org.ow2.asm:asm:$asmVersion")
+    implementation("org.ow2.asm:asm-analysis:$asmVersion")
+    implementation("org.ow2.asm:asm-commons:$asmVersion")
+    implementation("org.ow2.asm:asm-tree:$asmVersion")
+    implementation("org.ow2.asm:asm-util:$asmVersion")
+}
+
+gradlePlugin {
+    plugins {
+        xmlGradle {
+            id = 'xml-gradle'
+            implementationClass = 'union.xenfork.xenmc.gradle.XenMcGradlePlugin'
+        }
+    }
+}
+
+targetCompatibility = sourceCompatibility = JavaVersion.VERSION_17
+
+publishing {
+    publications {
+        java(MavenPublication) {
+            from components.java
+            groupId = maven_group
+            artifactId = archivesBaseName
+            version = version
+        }
+    }
+
+    repositories {
+        mavenLocal() //上传至本地的maven仓库，也可以到远程库
+    }
+}

@@ -1,0 +1,22 @@
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "io.github.xenfork:xml-gradle:xml-gd-1.0.0.6"
+    }
+}
+
+apply plugin: 'xml-gradle'
+
+xenmc {
+    minecraft {
+        version = '1.20.1'
+        asmVersion = "9.5"
+    }
+}
+
+
