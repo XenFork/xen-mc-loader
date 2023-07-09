@@ -24,6 +24,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
+import static union.xenfork.xenmc.gradle.util.Other.gson;
 import static union.xenfork.xenmc.gradle.util.mapping.MappingImpl.getClientMappingFile;
 import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.getClientCleanFile;
 
@@ -141,7 +142,7 @@ public class Obf extends CTask {
 
             if (extension.getMixins().referenceMap != null) {
                 try {
-                    FileUtils.write(new File(dir, extension.getMixins().referenceMap), new GsonBuilder().setPrettyPrinting().create().toJson(mixinReferenceMap), StandardCharsets.UTF_8);
+                    FileUtils.write(new File(dir, extension.getMixins().referenceMap), gson.toJson(mixinReferenceMap), StandardCharsets.UTF_8);
                 } catch (IOException e) {
                     getProject().getLogger().lifecycle(e.getMessage(), e);
                 }

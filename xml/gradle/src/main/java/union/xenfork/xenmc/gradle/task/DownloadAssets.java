@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static union.xenfork.xenmc.gradle.util.Other.gson;
 import static union.xenfork.xenmc.gradle.util.mc.AssetsImpl.*;
 import static union.xenfork.xenmc.gradle.util.DownloadImpl.readFile;
 import static union.xenfork.xenmc.gradle.util.Other.fileVerify;
@@ -38,8 +39,8 @@ public class DownloadAssets extends CTask {
 
         //get objects
         HashMap<String, AssetObject> objectHashMap = new HashMap<>();
-        for (Map.Entry<String, JsonElement> objects : new Gson().fromJson(asset, JsonObject.class).get("objects").getAsJsonObject().entrySet()) {
-            objectHashMap.put(objects.getKey(), new Gson().fromJson(objects.getValue(), AssetObject.class));
+        for (Map.Entry<String, JsonElement> objects : gson.fromJson(asset, JsonObject.class).get("objects").getAsJsonObject().entrySet()) {
+            objectHashMap.put(objects.getKey(), gson.fromJson(objects.getValue(), AssetObject.class));
         }
 
         //download object

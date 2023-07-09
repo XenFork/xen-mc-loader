@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import static union.xenfork.xenmc.gradle.util.Other.gson;
 import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.getJson;
 
 public class LibrariesUtil {
     public static List<String> getLibraries(XenMcGradleExtension extension) {
         LinkedHashMap<String, String> list = new LinkedHashMap<>();
-        for (JsonElement jsonElement : new Gson().fromJson(getJson(extension), JsonObject.class).get("libraries").getAsJsonArray()) {
+        for (JsonElement jsonElement : gson.fromJson(getJson(extension), JsonObject.class).get("libraries").getAsJsonArray()) {
             if (jsonElement.getAsJsonObject().has("natives")) {
                 continue;
             }

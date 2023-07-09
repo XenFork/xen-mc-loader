@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static union.xenfork.xenmc.gradle.util.DownloadImpl.readString;
+import static union.xenfork.xenmc.gradle.util.Other.gson;
 import static union.xenfork.xenmc.gradle.util.mc.MinecraftImpl.*;
 import static union.xenfork.xenmc.gradle.util.OsSys.isMac;
 import static union.xenfork.xenmc.gradle.util.OsSys.isWin;
 
 public class AssetsImpl {
     public static String getClientAsset(XenMcGradleExtension extension) {
-        return readString(new Gson().fromJson(getJson(extension), JsonObject.class).get("assetIndex").getAsJsonObject().get("url").getAsString());
+        return readString(gson.fromJson(getJson(extension), JsonObject.class).get("assetIndex").getAsJsonObject().get("url").getAsString());
     }
 
     public static File getClientIndexFile(XenMcGradleExtension extension) {
@@ -49,7 +50,7 @@ public class AssetsImpl {
     }
 
     public static String getClientAssetSha1(XenMcGradleExtension extension) {
-        return new Gson().fromJson(getJson(extension), JsonObject.class).get("assetIndex").getAsJsonObject().get("sha1").getAsString();
+        return gson.fromJson(getJson(extension), JsonObject.class).get("assetIndex").getAsJsonObject().get("sha1").getAsString();
     }
 
     public static File getNativeJarDir(XenMcGradleExtension extension) {
@@ -79,7 +80,7 @@ public class AssetsImpl {
     public static List<String> getNatives(XenMcGradleExtension extension) {
         List<String> libraries = new ArrayList<>();
 
-        for (JsonElement jsonElement : new Gson().fromJson(getJson(extension), JsonObject.class).get("libraries").getAsJsonArray()) {
+        for (JsonElement jsonElement : gson.fromJson(getJson(extension), JsonObject.class).get("libraries").getAsJsonArray()) {
             JsonObject downloads = jsonElement.getAsJsonObject().get("downloads").getAsJsonObject();
             if (downloads.has("classifiers")) {
                 String name = "natives-linux";

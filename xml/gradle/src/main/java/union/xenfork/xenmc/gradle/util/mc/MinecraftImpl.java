@@ -1,6 +1,5 @@
 package union.xenfork.xenmc.gradle.util.mc;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import union.xenfork.xenmc.gradle.XenMcGradleExtension;
@@ -11,6 +10,7 @@ import static union.xenfork.xenmc.gradle.util.DownloadImpl.readFile;
 import static union.xenfork.xenmc.gradle.util.DownloadImpl.readString;
 import static union.xenfork.xenmc.gradle.util.OsSys.isMac;
 import static union.xenfork.xenmc.gradle.util.OsSys.isWin;
+import static union.xenfork.xenmc.gradle.util.Other.gson;
 
 public class MinecraftImpl {
     public static File getMinecraftDir() {
@@ -27,7 +27,7 @@ public class MinecraftImpl {
 
     public static String getJson(XenMcGradleExtension extension) {
         String jsonUrl = "";
-        for (JsonElement jsonElement : new Gson().fromJson(readString(extension.getMinecraft().manifest), JsonObject.class).get("versions").getAsJsonArray()) {
+        for (JsonElement jsonElement : gson.fromJson(readString(extension.getMinecraft().manifest), JsonObject.class).get("versions").getAsJsonArray()) {
             if (jsonElement.getAsJsonObject().get("id").getAsString().equals(extension.getMinecraft().version)) {
                 jsonUrl = jsonElement.getAsJsonObject().get("url").getAsString();
             }
@@ -36,7 +36,7 @@ public class MinecraftImpl {
     }
 
     public static JsonObject getDownloadsJson(XenMcGradleExtension extension) {
-        return new Gson().fromJson(getJson(extension), JsonObject.class).get("downloads").getAsJsonObject();
+        return gson.fromJson(getJson(extension), JsonObject.class).get("downloads").getAsJsonObject();
     }
 
     public static File getClientFile(XenMcGradleExtension extension) {
