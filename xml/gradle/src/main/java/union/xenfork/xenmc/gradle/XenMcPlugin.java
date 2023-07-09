@@ -4,12 +4,16 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.plugins.PluginAware;
+import org.gradle.internal.impldep.org.apache.ivy.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
 import union.xenfork.xenmc.download.DownloadPlugin;
 import union.xenfork.xenmc.entrypoints.EntryPointsPlugin;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
+import union.xenfork.xenmc.extensions.XenMcExtension;
 import union.xenfork.xenmc.mapping.MappingPlugin;
 import union.xenfork.xenmc.remapping.ReMappingPlugin;
+
+import java.io.File;
 
 public class XenMcPlugin implements Plugin<PluginAware> {
     @Override
@@ -29,6 +33,12 @@ public class XenMcPlugin implements Plugin<PluginAware> {
                     maven.setName("mod loader maven");
                 });
             });
+            XenMcExtension xenmc = project1.getExtensions().create("xenmc", XenMcExtension.class);
+            xenmc.project = project1;
+            if (xenmc.cacheHome == null) {
+                xenmc.cacheHome = FileUtil.resolveFile(project1.getGradle().getGradleUserHomeDir(), "caches/xenmc");
+            }
+            minecraft.xenmc = xenmc;
         } else {
             minecraft = null;
         }
