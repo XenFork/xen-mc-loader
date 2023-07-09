@@ -1,9 +1,0 @@
-{
-  "minVersion": "0.8",
-  "compatibilityLevel": "JAVA_17",
-  "package": "union.xenfork.mold.mixin",
-  "refmap": "mold.mod.mixins.referenceMap.json",
-  "mixins": [
-    "MinecraftClientMixin"
-  ]
-}

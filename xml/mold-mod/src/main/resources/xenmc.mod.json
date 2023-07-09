@@ -1,7 +1,0 @@
-{
-  "name": "MoldMod",
-  "author": "baka4n",
-  "version": "1.0.0.0",
-  "description": "a mold mod",
-  "mixin": "mold.mod.mixins.json"
-}
