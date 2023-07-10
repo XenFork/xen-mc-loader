@@ -36,7 +36,7 @@ public class XenMcPlugin implements Plugin<PluginAware> {
             XenMcExtension xenmc = project1.getExtensions().create("xenmc", XenMcExtension.class);
             xenmc.project = project1;
             if (xenmc.cacheHome == null) {
-                xenmc.cacheHome = FileUtil.resolveFile(project1.getGradle().getGradleUserHomeDir(), "caches/xenmc");
+                xenmc.cacheHome = new File(project1.getGradle().getGradleUserHomeDir(), "caches%sxenmc".formatted(File.separator));
             }
             minecraft.xenmc = xenmc;
         } else {

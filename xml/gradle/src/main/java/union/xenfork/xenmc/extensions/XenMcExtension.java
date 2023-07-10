@@ -7,6 +7,7 @@ import java.io.File;
 
 public class XenMcExtension {
     public Project project;
-    public int threadDownloadCount = 1;// thread download -> thread count
+    public int threadDownloadCount = 3;// thread download -> thread count, default 3 thread
     public File cacheHome;
+    public boolean bpDownload = false;
 }
