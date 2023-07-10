@@ -3,18 +3,21 @@ package union.xenfork.xenmc.download;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
 import union.xenfork.xenmc.download.downloader.Downloader;
+import union.xenfork.xenmc.download.manifest.ManifestGson;
+import union.xenfork.xenmc.download.manifest.VersionGson;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.gradle.BootstrappedPlugin;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
 import union.xenfork.xenmc.gradle.Utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Locale;
 
 public class DownloadPlugin implements BootstrappedPlugin, BootstrappedPluginProject {
-    @SuppressWarnings({"LoopConditionNotUpdatedInsideLoop", "StatementWithEmptyBody"})
-    private static void accept(Thread thread) {
-        while (thread.isAlive()) ;
-    }
+
 
     @Override
     public void apply(PluginAware target, MinecraftExtension extension) {
@@ -27,8 +30,23 @@ public class DownloadPlugin implements BootstrappedPlugin, BootstrappedPluginPro
     public void apply(Project project, MinecraftExtension minecraft) {
         Utils.setupMessagePrefix(project, minecraft);
         project.getLogger().lifecycle("test-manifestDownload");
-        Downloader downloader = new Downloader(minecraft.manifestUrl, new File(minecraft.xenmc.cacheHome, "manifest"));
+        minecraft.manifestFile = new File(minecraft.xenmc.cacheHome, "manifest" + File.separator + "version_manifest.json");
+        Downloader downloader = new Downloader(minecraft.manifestUrl, minecraft.manifestFile.getParentFile());
         downloader.start();
+        
+        minecraft.versionJsonFile = new File(minecraft.xenmc.cacheHome, "versions" + File.separator + minecraft.version + ".json");
+        try {
+            ManifestGson manifest = Utils.gson.fromJson(new BufferedReader(new FileReader(minecraft.manifestFile)), ManifestGson.class);
+            for (VersionGson version : manifest.versions) {
+                if (minecraft.version.contains(version.id)) {
+                    Downloader downloader1 = new Downloader(version.url, minecraft.versionJsonFile.getParentFile());
+                    downloader1.start();
+                    break;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 //        try {
 //            Thread.sleep(1000);
 //        } catch (InterruptedException e) {

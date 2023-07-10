@@ -2,6 +2,8 @@ package union.xenfork.xenmc.extensions;
 
 import union.xenfork.xenmc.download.manifest.ManifestGson;
 
+import java.io.File;
+
 public class MinecraftExtension {
     public String version;
     public String manifestUrl = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
@@ -9,5 +11,6 @@ public class MinecraftExtension {
     public String libraries = "https://libraries.minecraft.net/";
     public int setup = 1;
     public XenMcExtension xenmc;
-    public ManifestGson manifest;
+    public File manifestFile;
+    public File versionJsonFile;
 }
