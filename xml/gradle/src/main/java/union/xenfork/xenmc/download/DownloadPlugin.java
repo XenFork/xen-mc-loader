@@ -2,10 +2,13 @@ package union.xenfork.xenmc.download;
 
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
+import union.xenfork.xenmc.download.downloader.Downloader;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.gradle.BootstrappedPlugin;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
 import union.xenfork.xenmc.gradle.Utils;
+
+import java.io.File;
 
 public class DownloadPlugin implements BootstrappedPlugin, BootstrappedPluginProject {
     @SuppressWarnings({"LoopConditionNotUpdatedInsideLoop", "StatementWithEmptyBody"})
@@ -24,6 +27,8 @@ public class DownloadPlugin implements BootstrappedPlugin, BootstrappedPluginPro
     public void apply(Project project, MinecraftExtension minecraft) {
         Utils.setupMessagePrefix(project, minecraft);
         project.getLogger().lifecycle("test-manifestDownload");
+        Downloader downloader = new Downloader(minecraft.manifestUrl, new File(minecraft.xenmc.cacheHome, "manifest"));
+        downloader.start();
 //        try {
 //            Thread.sleep(1000);
 //        } catch (InterruptedException e) {

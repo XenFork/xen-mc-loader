@@ -24,3 +24,5 @@ gradle-app.setting
 
 runClient/
 **/runClient/
+
+*.log
