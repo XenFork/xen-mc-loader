@@ -1,6 +1,6 @@
 package union.xenfork.xenmc.extensions;
 
-import union.xenfork.xenmc.manifest.ManifestGson;
+import union.xenfork.xenmc.download.manifest.ManifestGson;
 
 public class MinecraftExtension {
     public String version;

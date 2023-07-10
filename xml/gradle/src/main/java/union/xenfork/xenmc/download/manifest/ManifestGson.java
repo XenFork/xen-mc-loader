@@ -1,4 +1,4 @@
-package union.xenfork.xenmc.manifest;
+package union.xenfork.xenmc.download.manifest;
 
 import com.google.gson.annotations.SerializedName;
 
