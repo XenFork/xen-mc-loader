@@ -12,6 +12,7 @@ import union.xenfork.xenmc.gradle.Utils;
 import java.io.*;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -40,11 +41,12 @@ public class DownloadPlugin implements BootstrappedPluginProject {
     }
 
     public static void serializable(File file, File tempTranslate) throws IOException {
+        Path resolve = file.toPath().getParent().resolve(file.toPath().getFileName() + ".json");
         BufferedWriter bw = new BufferedWriter(new FileWriter(tempTranslate));
         bw.write(Utils.gson.toJson(Utils.gson.fromJson(new BufferedReader(new FileReader(file)), Object.class)));
         bw.close();
-        Files.copy(tempTranslate.toPath(), file.toPath().getParent().resolve(file.toPath().getFileName() + ".json"));
-
+        Files.copy(tempTranslate.toPath(), resolve);
+        while (!Files.exists(resolve));
 
     }
 
