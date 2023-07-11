@@ -7,13 +7,7 @@ import union.xenfork.xenmc.gradle.BootstrappedPlugin;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
 import union.xenfork.xenmc.gradle.Utils;
 
-public class MappingPlugin implements BootstrappedPlugin, BootstrappedPluginProject {
-    @Override
-    public void apply(PluginAware target, MinecraftExtension minecraft) {
-        if (target instanceof Project project) {
-            apply(project, minecraft);
-        }
-    }
+public class MappingPlugin implements BootstrappedPluginProject {
 
     @Override
     public void apply(Project project, MinecraftExtension minecraft) {

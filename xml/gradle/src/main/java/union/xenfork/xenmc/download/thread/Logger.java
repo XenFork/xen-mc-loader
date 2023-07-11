@@ -1,32 +1,36 @@
-package union.xenfork.xenmc.download.downloader;
+package union.xenfork.xenmc.download.thread;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 class Logger {
-    private String logFileName; // 下载的文件的名字
-    private Properties log;
+    private final File logFileName; // 下载的文件的名字
+    private final Properties log;
 
      /**
       * 重新开始下载时，使用该构造函数
-      * @param logFileName
+      * @param logFileName log file name
       */
-    Logger(String logFileName) {
-        this.logFileName = logFileName;
-        log = new Properties();
-        FileInputStream fin = null;
-        try {
-            log.load(new FileInputStream(logFileName));
-        } catch (IOException ignore) {
-        } finally {
-            try {
-                fin.close();
-            } catch (Exception ignore) {}
-        }
+     @SuppressWarnings("DataFlowIssue")
+     Logger(String logFileName) {
+         log = new Properties();
+         this.logFileName= new File(System.getProperty("user.dir"), ".gradle" + File.separator + "logs" + File.separator + logFileName);
+         if (!this.logFileName.getParentFile().exists()) {
+             this.logFileName.getParentFile().mkdirs();
+         }
+         try (FileInputStream fin = new FileInputStream(this.logFileName)) {
+             log.load(fin);
+         } catch (IOException ignore) {}
     }
 
     Logger(String logFileName, String url, int threadCount) {
-        this.logFileName = logFileName;
+        this.logFileName = new File(System.getProperty("user.dir"), ".gradle" + File.separator + "logs" + File.separator + logFileName);
+        if (!this.logFileName.getParentFile().exists()) {
+            this.logFileName.getParentFile().mkdirs();
+        }
         this.log = new Properties();
         log.put("url", url);
         log.put("wroteSize", "0");
@@ -61,7 +65,7 @@ class Logger {
     /**
      * 获取区间信息
      *      ret[i][0] = threadID, ret[i][1] = lowerBoundID, ret[i][2] = upperBoundID
-     * @return
+     * @return 区间信息
      */
     long[][] getBounds() {
         long[][] bounds = new long[Integer.parseInt(log.get("threadCount").toString())][3];

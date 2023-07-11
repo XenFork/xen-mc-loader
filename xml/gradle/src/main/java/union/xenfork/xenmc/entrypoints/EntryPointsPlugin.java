@@ -11,13 +11,7 @@ import union.xenfork.xenmc.gradle.Utils;
  * @author baka4n
  * @apiNote using asm to inject jar
  */
-public class EntryPointsPlugin implements BootstrappedPlugin, BootstrappedPluginProject {
-    @Override
-    public void apply(PluginAware target, MinecraftExtension minecraft) {
-        if (target instanceof Project project) {
-            apply(project, minecraft);
-        }
-    }
+public class EntryPointsPlugin implements BootstrappedPluginProject {
 
     @Override
     public void apply(Project project, MinecraftExtension minecraft) {

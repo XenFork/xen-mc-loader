@@ -1,4 +1,4 @@
-package union.xenfork.xenmc.download.downloader;
+package union.xenfork.xenmc.download.thread;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +10,10 @@ import java.util.concurrent.atomic.AtomicLong;
 class DownloadFile {
     private final RandomAccessFile file;
     private final FileChannel channel; // 线程安全类
-    private AtomicLong wroteSize; // 已写入的长度
-    private Logger logger;
+    private final AtomicLong wroteSize; // 已写入的长度
+    private final Logger logger;
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     DownloadFile(File dir, String fileName, long fileSize, Logger logger) throws IOException {
         if (!dir.exists())
             dir.mkdirs();
@@ -29,6 +30,7 @@ class DownloadFile {
      * @param buffer 数据
      * @throws IOException 写数据出现异常
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     void write(long offset, ByteBuffer buffer, int threadID, long upperBound) throws IOException {
         buffer.flip();
         int length = buffer.limit();
@@ -39,14 +41,12 @@ class DownloadFile {
         logger.updateLog(threadID, length, offset + length, upperBound); // 更新日志
     }
 
-    /**
-     * @return 已经下载的数据量，为了知道何时结束整个任务，以及统计信息
-     */
+
     long getWroteSize() {
         return wroteSize.get();
     }
 
-    // 继续下载时调用
+
     void setWroteSize(long wroteSize) {
         this.wroteSize.set(wroteSize);
     }

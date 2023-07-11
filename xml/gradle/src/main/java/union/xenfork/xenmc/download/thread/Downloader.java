@@ -1,22 +1,26 @@
-package union.xenfork.xenmc.download.downloader;
+package union.xenfork.xenmc.download.thread;
 
-import java.io.*;
-import java.net.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Downloader {
-    private static final int DEFAULT_THREAD_COUNT = 5;  // 默认线程数量
-    private AtomicBoolean canceled;
+    private static final int DEFAULT_THREAD_COUNT = 10;
+    private final AtomicBoolean canceled;
     private DownloadFile file;
-    private String storageLocation;
+    private final String storageLocation;
     private final int threadCount;
     private long fileSize;
     private final String url;
     private long beginTime;
     private Logger logger;
-    private File dir;
+    private final File dir;
+    private boolean isDone = false;
 
     public Downloader(String url, File dir) {
         this(url, DEFAULT_THREAD_COUNT, dir);
@@ -35,13 +39,13 @@ public class Downloader {
         boolean reStart = Files.exists(Path.of(storageLocation + ".log"));
         if (reStart) {
             logger = new Logger(storageLocation + ".log");
-            System.out.printf("* Continue the last download progress[Downloaded: %.2fMB]：%s\n", logger.getWroteSize() / 1014.0 / 1024, url);
+            System.out.printf("* Continue the last download progress[Downloaded: %.2fKB]：%s\n", logger.getWroteSize() / 1014.0, url);
         } else {
-            System.out.println("* 开始下载：" + url);
+            System.out.println("* start download：" + url);
         }
         if (-1 == (this.fileSize = getFileSize()))
             return;
-        System.out.printf("* 文件大小：%.2fMB\n", fileSize / 1024.0 / 1024);
+        System.out.printf("* file size is %.2fKB\n", fileSize / 1024.0);
 
         this.beginTime = System.currentTimeMillis();
         try {
@@ -49,20 +53,17 @@ public class Downloader {
             if (reStart) {
                 file.setWroteSize(logger.getWroteSize());
             }
-            // 分配线程下载
+
             dispatcher(reStart);
-            // 循环打印进度
+
             printDownloadProgress();
         } catch (IOException e) {
-            System.err.println("x 创建文件失败[" + e.getMessage() + "]");
+            System.err.println("x error to create file[" + e.getMessage() + "]");
         }
     }
 
-    /**
-     * 分配器，决定每个线程下载哪个区间的数据
-     */
     private void dispatcher(boolean reStart) {
-        long blockSize = fileSize / threadCount; // 每个线程要下载的数据量
+        long blockSize = fileSize / threadCount;
         long lowerBound = 0, upperBound = 0;
         long[][] bounds = null;
         int threadID = 0;
@@ -84,23 +85,21 @@ public class Downloader {
         }
     }
 
-    /**
-     * 循环打印进度，直到下载完毕，或任务被取消
-     */
     private void printDownloadProgress() {
         long downloadedSize = file.getWroteSize();
         int i = 0;
-        long lastSize = 0; // 三秒前的下载量
+        long lastSize = 0;
         while (!canceled.get() && downloadedSize < fileSize) {
-            if (i++ % 4 == 3) { // 每3秒打印一次
-                System.out.printf("下载进度：%.2f%%, 已下载：%.2fMB，当前速度：%.2fMB/s\n",
+            if (i++ % 4 == 3) {
+                System.out.printf("download process: %.2f%%, Downloaded: %.2fKB，Download speed: %.2fKB/s\n",
                         downloadedSize / (double)fileSize * 100 ,
-                        downloadedSize / 1024.0 / 1024,
-                        (downloadedSize - lastSize) / 1024.0 / 1024 / 3);
+                        downloadedSize / 1024.0,
+                        (downloadedSize - lastSize) / 1024.0 / 3);
                 lastSize = downloadedSize;
                 i = 0;
             }
             try {
+                //noinspection BusyWait
                 Thread.sleep(1000);
             } catch (InterruptedException ignore) {}
             downloadedSize = file.getWroteSize();
@@ -111,15 +110,14 @@ public class Downloader {
                 Files.delete(Path.of(storageLocation));
             } catch (IOException ignore) {
             }
-            System.err.println("x 下载失败，任务已取消");
+            System.err.println("x Download failed and task canceled");
+            isDone = true;
         } else {
-            System.out.println("* 下载成功，本次用时"+ (System.currentTimeMillis() - beginTime) / 1000 +"秒");
+            System.out.println("* The download was successful, use time"+ (System.currentTimeMillis() - beginTime) +"ms");
+            isDone = true;
         }
     }
 
-    /**
-     * @return 要下载的文件的尺寸
-     */
     private long getFileSize() {
         if (fileSize != 0) {
             return fileSize;
@@ -130,14 +128,26 @@ public class Downloader {
             conn.setConnectTimeout(3000);
             conn.setRequestMethod("HEAD");
             conn.connect();
-            System.out.println("* 连接服务器成功");
+            System.out.println("* Connection to Server succeeded");
         } catch (MalformedURLException e) {
-            throw new RuntimeException("URL错误");
+            throw new RuntimeException("Incorrect URL");
         } catch (IOException e) {
-            System.err.println("x 连接服务器失败["+ e.getMessage() +"]");
+            System.err.println("x Connection to Server failed["+ e.getMessage() +"]");
             return -1;
         }
         return conn.getContentLengthLong();
+    }
+
+    /**
+     * @apiNote 线程阻塞防止串线
+     */
+    @SuppressWarnings({"WhileLoopSpinsOnField", "StatementWithEmptyBody"})
+    public void isDone() {
+        while (!isDone);
+    }
+
+    public boolean isIsDone() {
+        return isDone;
     }
 }
 

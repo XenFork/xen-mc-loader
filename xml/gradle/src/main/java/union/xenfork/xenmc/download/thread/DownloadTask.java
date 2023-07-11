@@ -1,6 +1,6 @@
-package union.xenfork.xenmc.download.downloader;
+package union.xenfork.xenmc.download.thread;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -11,13 +11,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 class DownloadTask extends Thread {
     private final String url;
     private long lowerBound; // 下载的文件区间
-    private long upperBound;
-    private AtomicBoolean canceled;
-    private DownloadFile downloadFile;
-    private int threadId;
+    private final long upperBound;
+    private final AtomicBoolean canceled;
+    private final DownloadFile downloadFile;
+    private final int threadId;
 
     DownloadTask(String url, long lowerBound, long upperBound, DownloadFile downloadFile,
-                        AtomicBoolean canceled, int threadID) {
+                 AtomicBoolean canceled, int threadID) {
         this.url = url;
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
@@ -30,9 +30,9 @@ class DownloadTask extends Thread {
     public void run() {
         ReadableByteChannel input = null;
         try {
-            ByteBuffer buffer = ByteBuffer.allocate(1024 * 1024 * 2); // 2MB
+            ByteBuffer buffer = ByteBuffer.allocate(1024 * 1024 * 2);
             input = connect();
-            System.out.println("* [线程" + threadId + "]连接成功，开始下载...");
+//            System.out.println("* [thread" + threadId + "]Thread 1 is connected successfully and the download begins...");
 
             int len;
             while (!canceled.get() && lowerBound <= upperBound) {
@@ -41,12 +41,12 @@ class DownloadTask extends Thread {
                 downloadFile.write(lowerBound, buffer, threadId, upperBound);
                 lowerBound += len;
             }
-            if (!canceled.get()) {
-                System.out.println("* [线程" + threadId + "]下载完成" + ": " + lowerBound + "-" + upperBound);
-            }
+//            if (!canceled.get()) {
+//                System.out.println("* [thread" + threadId + "]download complete" + ": " + lowerBound + "-" + upperBound);
+//            }
         } catch (IOException e) {
             canceled.set(true);
-            System.err.println("x [线程" + threadId + "]遇到错误[" + e.getMessage() + "]，结束下载");
+//            System.err.println("x [thread" + threadId + "]encountered an error[" + e.getMessage() + "]，end the download");
         } finally {
             if (input != null) {
                 try {
@@ -58,11 +58,7 @@ class DownloadTask extends Thread {
         }
     }
 
-    /**
-     * 连接WEB服务器，并返回一个数据通道
-     * @return 返回通道
-     * @throws IOException 网络连接错误
-     */
+
     private ReadableByteChannel connect() throws IOException {
         HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
         conn.setConnectTimeout(3000);
@@ -74,7 +70,7 @@ class DownloadTask extends Thread {
         int statusCode = conn.getResponseCode();
         if (HttpURLConnection.HTTP_PARTIAL != statusCode) {
             conn.disconnect();
-            throw new IOException("状态码错误：" + statusCode);
+            throw new IOException("The status code is incorrect: " + statusCode);
         }
 
         return Channels.newChannel(conn.getInputStream());
