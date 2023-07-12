@@ -1,5 +1,8 @@
 package union.xenfork.xenmc.download;
 
+import cn.hutool.core.io.StreamProgress;
+import cn.hutool.http.HttpDownloader;
+import io.github.baka4n.Download;
 import org.gradle.api.Project;
 import org.jetbrains.annotations.NotNull;
 import union.xenfork.xenmc.download.manifest.ManifestGson;
@@ -29,6 +32,19 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         Utils.setupMessagePrefix(project, minecraft);
         project.getLogger().lifecycle("Download");
         MinecraftExtension.manifestFile = new File(minecraft.xenmc.cacheHome, "manifest" + File.separator + "version_manifest.json");
+
+        HttpDownloader.downloadFile(minecraft.manifestUrl, MinecraftExtension.manifestFile, 3000, new StreamProgressImpl(minecraft.manifestUrl));
+        MinecraftExtension.manifest = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.manifestFile)), ManifestGson.class);
+        MinecraftExtension.versionJsonFile = new File(minecraft.xenmc.cacheHome, "versions" + File.separator + minecraft.version + ".json");
+        for (VersionGson version : MinecraftExtension.manifest.versions) {
+            if (minecraft.version.equals(version.id)) {
+                if (!MinecraftExtension.versionJsonFile.exists()) {
+                    HttpDownloader.downloadFile(version.url, MinecraftExtension.versionJsonFile, 3000, new StreamProgressImpl(version.url));
+                }
+            }
+        }
+//        Download.download(minecraft.manifestUrl, new File(minecraft.xenmc.cacheHome, "manifest"));
+        /*MinecraftExtension.manifestFile = new File(minecraft.xenmc.cacheHome, "manifest" + File.separator + "version_manifest.json");
         download(MinecraftExtension.manifestFile.getParentFile(), minecraft.xenmc.threadDownloadCount, minecraft.manifestUrl);
         MinecraftExtension.versionJsonFile = new File(minecraft.xenmc.cacheHome, "versions" + File.separator + minecraft.version + ".json");
         serializable(MinecraftExtension.manifestFile, tempTranslate);
@@ -55,8 +71,8 @@ public class DownloadPlugin implements BootstrappedPluginProject {
             }
         }
         MinecraftExtension.versionSet = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.versionJsonFile)), MinecraftVersionGson.class);
-        new DownloadAssets().apply(project, minecraft);
-        System.out.println(MinecraftExtension.versionSet.mainClass);
+        new DownloadAssets().apply(project, minecraft);*/
+//        System.out.println(MinecraftExtension.versionSet.mainClass);
     }
 
 

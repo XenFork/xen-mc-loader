@@ -12,8 +12,8 @@ import java.io.File;
  */
 public class Download {
 
-    public Download(String url, File saveFile) {
-        HttpUtil.downloadFile(url, FileUtil.file(saveFile.getParentFile()), new StreamProgress() {
+    public static void download(String url, File dir) {
+        long l = HttpUtil.downloadFile(url, FileUtil.file(dir), new StreamProgress() {
             @Override
             public void start() {
                 System.out.printf("start download%s%n", url);
@@ -21,7 +21,9 @@ public class Download {
 
             @Override
             public void progress(long total, long progressSize) {
-                System.out.printf("already download%d%%%n", progressSize / total * 100);
+                
+                System.out.println((double)progressSize / ((double) total / 58193090278964L));
+                System.out.printf("already download%s%n", FileUtil.readableFileSize(progressSize));
             }
 
             @Override
@@ -29,6 +31,11 @@ public class Download {
 
             }
         });
+        System.out.println(l);
+    }
+
+    public Download(String url, File saveFile) {
+
 
     }
 
