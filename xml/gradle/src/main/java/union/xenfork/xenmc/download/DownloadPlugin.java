@@ -34,6 +34,7 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         MinecraftExtension.manifestFile = new File(minecraft.xenmc.cacheHome, "manifest" + File.separator + "version_manifest.json");
 
         HttpDownloader.downloadFile(minecraft.manifestUrl, MinecraftExtension.manifestFile, 3000, new StreamProgressImpl(minecraft.manifestUrl));
+
         MinecraftExtension.manifest = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.manifestFile)), ManifestGson.class);
         MinecraftExtension.versionJsonFile = new File(minecraft.xenmc.cacheHome, "versions" + File.separator + minecraft.version + ".json");
         for (VersionGson version : MinecraftExtension.manifest.versions) {

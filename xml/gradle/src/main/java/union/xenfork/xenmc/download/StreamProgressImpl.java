@@ -27,8 +27,9 @@ public class StreamProgressImpl implements StreamProgress {
 
     @Override
     public void finish() {
+
         endTime = System.currentTimeMillis();
         System.out.print("\b".repeat(formatted.length()));
-        System.out.println(url + "download success" + ",speed " + ((double) fileSize / (double) (endTime - startTime)));
+        System.out.printf("%s download success,speed %.3fmb/s, file size %.2f mb%n", url, ((double) fileSize / 1024 / 1024) / ((double) (endTime - startTime) / 1000), ((double)fileSize / 1024 / 1024));
     }
 }
