@@ -1,5 +1,6 @@
 package union.xenfork.xenmc.download;
 
+import cn.hutool.http.HttpDownloader;
 import com.google.gson.reflect.TypeToken;
 import org.gradle.api.Project;
 import union.xenfork.xenmc.download.assets.Something;
@@ -23,9 +24,10 @@ public class DownloadAssets implements BootstrappedPluginProject {
         MinecraftExtension.assetsDir = new File(minecraft.xenmc.cacheHome, "assets");
         MinecraftExtension.assetsIndexFile = new File(MinecraftExtension.assetsDir, "indexes" + File.separator + MinecraftExtension.versionSet.id + ".json");
         MinecraftExtension.assetsObjectsDir = new File(MinecraftExtension.assetsDir, "objects");
-        Downloader downloader = new Downloader(MinecraftExtension.versionSet.assetIndex.url, MinecraftExtension.assetsIndexFile.getParentFile(), MinecraftExtension.assetsIndexFile.getName());
-        downloader.start();
-        downloader.isDone();
+        HttpDownloader.downloadFile(MinecraftExtension.versionSet.assetIndex.url, MinecraftExtension.assetsIndexFile, 3000, new StreamProgressImpl(MinecraftExtension.versionSet.assetIndex.url));
+//        Downloader downloader = new Downloader(MinecraftExtension.versionSet.assetIndex.url, MinecraftExtension.assetsIndexFile.getParentFile(), MinecraftExtension.assetsIndexFile.getName());
+//        downloader.start();
+//        downloader.isDone();
         Utils.serializable(MinecraftExtension.assetsIndexFile, tempTranslate);
         TypeToken<Map<String, Map<String, Something>>> token = new TypeToken<>() {};
         Map<String, Map<String, Something>> assetsLoader = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.assetsIndexFile)), token.getType());
@@ -33,7 +35,12 @@ public class DownloadAssets implements BootstrappedPluginProject {
         assetsLoader.forEach((s, stringSomethingMap) -> {
             stringSomethingMap.forEach((s1, something) -> {
                 String getUrl = "%s%s/%s".formatted(minecraft.assets, something.hash.substring(0, 2), something.hash);
-                downloads.add(getUrl, minecraft.xenmc.threadDownloadCount, new File(MinecraftExtension.assetsObjectsDir, something.hash.substring(0, 2)), something.hash);
+                File targetFileOrDir = new File(MinecraftExtension.assetsObjectsDir, something.hash.substring(0, 2) + File.separator + something.hash);
+                if (!targetFileOrDir.exists()) {
+                    HttpDownloader.downloadFile(getUrl, targetFileOrDir, 3000, new StreamProgressImpl(getUrl));
+                }
+
+//                downloads.add(getUrl, minecraft.xenmc.threadDownloadCount, new File(MinecraftExtension.assetsObjectsDir, something.hash.substring(0, 2)), something.hash);
 //                System.out.printf("%s->%s->%s :: %s%n", s, s1, something.hash, something.size);
             });
         });

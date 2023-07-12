@@ -74,6 +74,8 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         MinecraftExtension.versionSet = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.versionJsonFile)), MinecraftVersionGson.class);
         new DownloadAssets().apply(project, minecraft);*/
 //        System.out.println(MinecraftExtension.versionSet.mainClass);
+        MinecraftExtension.versionSet = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.versionJsonFile)), MinecraftVersionGson.class);
+        new DownloadAssets().apply(project, minecraft);
     }
 
 
