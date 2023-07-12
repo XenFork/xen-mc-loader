@@ -1,24 +1,24 @@
-buildscript {
-    repositories {
-        mavenLocal()
-    }
-    dependencies {
-        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.0'
-
-    }
-}
-
-plugins {
-    id 'java'
-    id 'idea'
-}
-
-apply plugin: 'xml-gradle'
-
-minecraft {
-    version = "1.20.1"
-}
-
-xenmc {
-    threadDownloadCount = 10
-}
+//buildscript {
+//    repositories {
+//        mavenLocal()
+//    }
+//    dependencies {
+//        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.0'
+//
+//    }
+//}
+//
+//plugins {
+//    id 'java'
+//    id 'idea'
+//}
+//
+//apply plugin: 'xml-gradle'
+//
+//minecraft {
+//    version = "1.20.1"
+//}
+//
+//xenmc {
+//    threadDownloadCount = 3
+//}

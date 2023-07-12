@@ -22,21 +22,45 @@ public class Downloader {
     private final File dir;
     private boolean isDone = false;
 
+    public File getDir() {
+        return dir;
+    }
+
+    public int getThreadCount() {
+        return threadCount;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Downloader(String url) {
+        this(url, DEFAULT_THREAD_COUNT, new File(System.getProperty("user.dir")));
+    }
+
     public Downloader(String url, File dir) {
         this(url, DEFAULT_THREAD_COUNT, dir);
     }
 
     public Downloader(String url, int threadCount, File dir) {
+        this(url, threadCount, dir, url.substring(url.lastIndexOf('/')+1));
+    }
+
+    public Downloader(String url, int threadCount, File dir, String storageLocation) {
         this.url = url;
         this.dir = dir;
         this.threadCount = threadCount;
         this.canceled = new AtomicBoolean(false);
-        this.storageLocation = url.substring(url.lastIndexOf('/')+1);
+        this.storageLocation = storageLocation;
         this.logger = new Logger(storageLocation + ".log", url, threadCount);
     }
 
+    public Downloader(String url, File dir, String storageLocation) {
+        this(url, DEFAULT_THREAD_COUNT, dir, storageLocation);
+    }
+
     public void start() {
-        boolean reStart = Files.exists(Path.of(storageLocation + ".log"));
+        boolean reStart = Files.exists(new File(dir, storageLocation + ".log").toPath());
         if (reStart) {
             logger = new Logger(storageLocation + ".log");
             System.out.printf("* Continue the last download progress[Downloaded: %.2fKB]：%s\n", logger.getWroteSize() / 1014.0, url);
@@ -64,9 +88,9 @@ public class Downloader {
 
     private void dispatcher(boolean reStart) {
         long blockSize = fileSize / threadCount;
-        long lowerBound = 0, upperBound = 0;
+        long lowerBound, upperBound;
         long[][] bounds = null;
-        int threadID = 0;
+        int threadID;
         if (reStart) {
            bounds = logger.getBounds();
         }
@@ -78,7 +102,6 @@ public class Downloader {
             } else {
                 threadID = i;
                 lowerBound = i * blockSize;
-                // fileSize-1 !!!!! fu.ck，找了一下午的错
                 upperBound = (i == threadCount - 1) ? fileSize-1 : lowerBound + blockSize;
             }
             new DownloadTask(url, lowerBound, upperBound, file, canceled, threadID).start();
@@ -122,7 +145,7 @@ public class Downloader {
         if (fileSize != 0) {
             return fileSize;
         }
-        HttpURLConnection conn = null;
+        HttpURLConnection conn;
         try {
             conn = (HttpURLConnection)new URL(url).openConnection();
             conn.setConnectTimeout(3000);
