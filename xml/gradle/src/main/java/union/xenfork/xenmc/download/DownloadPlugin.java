@@ -35,20 +35,21 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         MinecraftExtension.manifest = (gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.manifestFile)), ManifestGson.class));
         for (VersionGson version : MinecraftExtension.manifest.versions) {
             if (minecraft.version.equals(version.id)) {
-                if (!MinecraftExtension.versionJsonFile.exists()) {
-                    download(MinecraftExtension.versionJsonFile.getParentFile(), minecraft.xenmc.threadDownloadCount, version.url);
-                } else {
-                    RandomAccessFile rwd = new RandomAccessFile(MinecraftExtension.versionJsonFile, "rwd");
-                    HttpURLConnection conn = (HttpURLConnection) new URL(version.url).openConnection();
-                    conn.setConnectTimeout(3000);
-                    conn.setRequestMethod("HEAD");
-                    conn.connect();
-                    if (!(rwd.length() == conn.getContentLengthLong())) {
-                        rwd.close();
-                        conn.disconnect();
-                        download(MinecraftExtension.versionJsonFile.getParentFile(), minecraft.xenmc.threadDownloadCount, version.url);
-                    }
-                }
+                Utils.download(MinecraftExtension.versionJsonFile, minecraft.xenmc.threadDownloadCount, version.url);
+//                if (!MinecraftExtension.versionJsonFile.exists()) {
+//                    download(MinecraftExtension.versionJsonFile.getParentFile(), minecraft.xenmc.threadDownloadCount, version.url);
+//                } else {
+//                    RandomAccessFile rwd = new RandomAccessFile(MinecraftExtension.versionJsonFile, "rwd");
+//                    HttpURLConnection conn = (HttpURLConnection) new URL(version.url).openConnection();
+//                    conn.setConnectTimeout(3000);
+//                    conn.setRequestMethod("HEAD");
+//                    conn.connect();
+//                    if (!(rwd.length() == conn.getContentLengthLong())) {
+//                        rwd.close();
+//                        conn.disconnect();
+//                        download(MinecraftExtension.versionJsonFile.getParentFile(), minecraft.xenmc.threadDownloadCount, version.url);
+//                    }
+//                }
                 serializable(MinecraftExtension.versionJsonFile, tempTranslate);
                 break;
             }

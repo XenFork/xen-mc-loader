@@ -7,6 +7,8 @@ import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.extensions.XenMcExtension;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -39,5 +41,22 @@ public class Utils {
         Files.copy(tempTranslate.toPath(), resolve, REPLACE_EXISTING);
         //noinspection StatementWithEmptyBody
         while (!Files.exists(resolve));
+    }
+
+    public static void download(File path, int threadDownloadCount, String url) throws Exception {
+        if (!path.exists()) {
+            download(path.getParentFile(), threadDownloadCount, url);
+        } else {
+            RandomAccessFile rwd = new RandomAccessFile(path, "rwd");
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setConnectTimeout(3000);
+            conn.setRequestMethod("HEAD");
+            conn.connect();
+            if (!(rwd.length() == conn.getContentLengthLong())) {
+                rwd.close();
+                conn.disconnect();
+                download(path.getParentFile(), threadDownloadCount, url);
+            }
+        }
     }
 }
