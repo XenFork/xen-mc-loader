@@ -23,6 +23,9 @@ public class Downloads {
                 if (!downloads.threadDownloads.containsKey(k)) {
                     downloads.threadDownloads.put(k, new ThreadDownload(assets, dir));
                 }
+                if (strings.length <= j) {
+                    break;
+                }
                 downloads.threadDownloads.get(k).add(somethingMap.get(strings[j]));
             }
         }

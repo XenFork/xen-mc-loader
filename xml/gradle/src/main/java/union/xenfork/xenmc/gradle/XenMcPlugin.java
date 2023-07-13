@@ -27,7 +27,7 @@ public class XenMcPlugin implements Plugin<Project> {
             }
             minecraft.xenmc = xenmc;
             if (minecraft.version == null) throw new NullPointerException("please set minecraft version");
-            if (minecraft.xenmc.threadDownloadCount == null) minecraft.xenmc.threadDownloadCount = 3;
+            if (minecraft.xenmc.threadDownloadCount == null) minecraft.xenmc.threadDownloadCount = 10;
             RepositoryHandler repositories = project.getRepositories();
             repositories.maven(maven -> {
                 maven.setUrl(minecraft.libraries);

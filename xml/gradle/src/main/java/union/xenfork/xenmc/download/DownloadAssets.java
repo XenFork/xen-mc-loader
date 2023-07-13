@@ -28,7 +28,7 @@ public class DownloadAssets implements BootstrappedPluginProject {
         Utils.serializable(MinecraftExtension.assetsIndexFile, tempTranslate);
         TypeToken<Map<String, Map<String, Something>>> token = new TypeToken<>() {};
         Map<String, Map<String, Something>> assetsLoader = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.assetsIndexFile)), token.getType());
-        Downloads.downloads(assetsLoader, minecraft.assets, MinecraftExtension.assetsObjectsDir, 4);
+        Downloads.downloads(assetsLoader, minecraft.assets, MinecraftExtension.assetsObjectsDir, minecraft.xenmc.threadDownloadCount);
 //        assetsLoader.forEach((s, stringSomethingMap) -> {
 //            stringSomethingMap.forEach((s1, something) -> {
 //                String getUrl = "%s%s/%s".formatted(minecraft.assets, something.hash.substring(0, 2), something.hash);
