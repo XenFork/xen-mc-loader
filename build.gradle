@@ -3,9 +3,10 @@ allprojects {
     apply plugin: 'maven-publish'
     group = maven_group
 
+    targetCompatibility = sourceCompatibility = JavaVersion.VERSION_20
+
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url 'https://maven.enaium.cn' }
     }
 }

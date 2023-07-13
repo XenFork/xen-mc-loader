@@ -40,9 +40,6 @@ gradlePlugin {
     }
 }
 
-targetCompatibility = sourceCompatibility = JavaVersion.VERSION_21
-
-
 publishing {
     repositories {
         mavenLocal()

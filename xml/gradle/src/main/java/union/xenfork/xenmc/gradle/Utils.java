@@ -1,9 +1,6 @@
 package union.xenfork.xenmc.gradle;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.asymmetric.Sign;
-import cn.hutool.crypto.asymmetric.SignAlgorithm;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.MessageDigest;
 import java.util.Locale;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;

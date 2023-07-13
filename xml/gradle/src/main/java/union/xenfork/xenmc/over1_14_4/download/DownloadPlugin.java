@@ -45,6 +45,6 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         new DownloadGame().apply(project, minecraft);
         new DownloadLibraries().apply(project, minecraft);
         System.out.printf("%.2fs%n", ((double) StreamProgressImpl.usingTime.get()) / 1000);
-        System.out.printf("v=%.2fmb/s%n", (double) (StreamProgressImpl.fileSize / 1024 / 1024) / ((double) StreamProgressImpl.usingTime.get()) / 1000);
+        System.out.printf("v=%.2fmb/s%n", (((double)StreamProgressImpl.fileSize.get()) / 1024 / 1024) / ((double) StreamProgressImpl.usingTime.get()) / 1000);
     }
 }

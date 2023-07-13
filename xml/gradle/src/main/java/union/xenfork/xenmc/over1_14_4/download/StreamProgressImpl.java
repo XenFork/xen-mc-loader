@@ -17,21 +17,13 @@ public class StreamProgressImpl implements StreamProgress {
     public String url;
     String formatted = "";
     long startTime, endTime;
-    static long fileSize = 0;
+    static AtomicLong fileSize = new AtomicLong(0);
     public static AtomicLong usingTime = new AtomicLong(0);
     public StreamProgressImpl(String url) {
         this.url = url;
     }
     @Override
     public void start() {
-        try {
-            HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(3000);
-            fileSize += urlConnection.getContentLengthLong();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         startTime = System.currentTimeMillis();
 
     }

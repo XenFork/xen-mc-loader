@@ -3,7 +3,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.0'
+        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.1'
 
     }
 }
@@ -12,6 +12,7 @@ plugins {
     id 'java'
     id 'idea'
 }
+
 
 apply plugin: 'xml-gradle'
 
