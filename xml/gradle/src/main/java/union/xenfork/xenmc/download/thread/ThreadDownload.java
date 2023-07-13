@@ -1,6 +1,7 @@
 package union.xenfork.xenmc.download.thread;
 
 import cn.hutool.http.HttpDownloader;
+import org.gradle.api.logging.Logger;
 import union.xenfork.xenmc.download.StreamProgressImpl;
 import union.xenfork.xenmc.download.assets.Something;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
@@ -18,9 +19,11 @@ public class ThreadDownload extends Thread {
     private final String assets;
     private final ArrayList<Something> somethingMap = new ArrayList<>();
     private final File dir;
-    public ThreadDownload(String assets, File dir) {
+    private Logger logger;
+    public ThreadDownload(String assets, File dir, Logger logger) {
         this.assets = assets;
         this.dir = dir;
+        this.logger = logger;
     }
 
     public ThreadDownload add(Something something) {
@@ -33,8 +36,10 @@ public class ThreadDownload extends Thread {
         somethingMap.forEach(something -> {
             String getUrl = "%s%s/%s".formatted(assets, something.hash.substring(0, 2), something.hash);
             File targetFileOrDir = new File(dir, something.hash.substring(0, 2) + File.separator + something.hash);
-            if (!targetFileOrDir.exists())
+            if (!targetFileOrDir.exists()) {
+                logger.lifecycle("download {}",getUrl);
                 HttpDownloader.downloadFile(getUrl, targetFileOrDir, 3000, new StreamProgressImpl(getUrl));
+            }
         });
 
     }

@@ -20,5 +20,5 @@ minecraft {
 }
 
 xenmc {
-    threadDownloadCount = 6
+    threadDownloadCount = 15
 }

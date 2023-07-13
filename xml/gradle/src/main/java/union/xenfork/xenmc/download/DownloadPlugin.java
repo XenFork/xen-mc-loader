@@ -2,6 +2,7 @@ package union.xenfork.xenmc.download;
 
 import cn.hutool.http.HttpDownloader;
 import org.gradle.api.Project;
+import org.gradle.api.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import union.xenfork.xenmc.download.manifest.ManifestGson;
 import union.xenfork.xenmc.download.manifest.VersionGson;
@@ -24,17 +25,24 @@ public class DownloadPlugin implements BootstrappedPluginProject {
     @Override
     public void apply(Project project, @NotNull MinecraftExtension minecraft) throws Exception {
         Utils.setupMessagePrefix(project, minecraft);
-        project.getLogger().lifecycle("Download");
+        Logger logger = project.getLogger();
+        logger.lifecycle("Download");
         MinecraftExtension.manifestFile = new File(minecraft.xenmc.cacheHome, "manifest" + File.separator + "version_manifest.json");
 
+        logger.lifecycle("download {}", minecraft.manifestUrl);
         downloadFile(minecraft.manifestUrl, MinecraftExtension.manifestFile, 3000, new StreamProgressImpl(minecraft.manifestUrl));
         MinecraftExtension.manifest = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.manifestFile)), ManifestGson.class);
         MinecraftExtension.versionJsonFile = new File(minecraft.xenmc.cacheHome, "versions" + File.separator + minecraft.version + ".json");
         for (VersionGson version : MinecraftExtension.manifest.versions)
-            if (minecraft.version.equals(version.id))
-                if (!MinecraftExtension.versionJsonFile.exists())
+            if (minecraft.version.equals(version.id)) {
+
+                if (!MinecraftExtension.versionJsonFile.exists()) {
+                    logger.lifecycle("download {}", version.url);
                     downloadFile(version.url, MinecraftExtension.versionJsonFile, 3000, new StreamProgressImpl(version.url));
+                }
+            }
         MinecraftExtension.versionSet = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.versionJsonFile)), MinecraftVersionGson.class);
         new DownloadAssets().apply(project, minecraft);
+        new DownloadGame().apply(project, minecraft);
     }
 }

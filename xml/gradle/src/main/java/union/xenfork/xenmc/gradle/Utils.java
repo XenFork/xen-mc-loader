@@ -1,5 +1,10 @@
 package union.xenfork.xenmc.gradle;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.Sign;
+import cn.hutool.crypto.asymmetric.SignAlgorithm;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.gradle.api.Project;
@@ -11,6 +16,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.util.Locale;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -58,5 +65,12 @@ public class Utils {
                 download(path.getParentFile(), threadDownloadCount, url);
             }
         }
+    }
+
+    public static boolean isSha1(File path, String sha1) {
+        if (!path.exists()) {
+            return false;
+        }
+        return DigestUtil.sha1Hex(FileUtil.readBytes(path)).toLowerCase(Locale.ROOT).equals(sha1.toLowerCase(Locale.ROOT));
     }
 }
