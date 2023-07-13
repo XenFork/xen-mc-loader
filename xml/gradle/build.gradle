@@ -27,8 +27,6 @@ dependencies {
     implementation("org.ow2.asm:asm-tree:$asmVersion")
     implementation("org.ow2.asm:asm-util:$asmVersion")
     implementation 'io.github.ssaltedfish:aria2-javacpp:1.1.0'
-
-
 }
 
 gradlePlugin {

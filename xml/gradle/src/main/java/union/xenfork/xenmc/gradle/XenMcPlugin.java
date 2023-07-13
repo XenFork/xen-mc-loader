@@ -9,6 +9,7 @@ import union.xenfork.xenmc.entrypoints.EntryPointsPlugin;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.extensions.XenMcExtension;
 import union.xenfork.xenmc.mapping.MappingPlugin;
+import union.xenfork.xenmc.over1_14_4.download.minecraft.library.Libraries;
 import union.xenfork.xenmc.remapping.ReMappingPlugin;
 
 import java.io.File;
@@ -31,13 +32,23 @@ public class XenMcPlugin implements Plugin<Project> {
                 maven.setUrl(minecraft.libraries);
                 maven.setName("minecraft libraries maven");
             });
+
             repositories.maven(maven -> {
                 maven.setUrl("https://chinawaremc.github.io/maven-repo/");
                 maven.setName("mod loader maven");
             });
             // 19w36a and+, 1.14.4 and+, is not Combat Test 3
             _1144p(project, minecraft);
+//            project.getDependencies().add("implementation", project.getDependencies().create(project.files(MinecraftExtension.librariesDir)));
+            for (Libraries library : MinecraftExtension.versionSet.libraries) {
+                if (library.rules != null) {
+                    continue;
+                }
 
+
+                project.getDependencies().add("implementation", library.name);
+
+            }
         });
 
     }
