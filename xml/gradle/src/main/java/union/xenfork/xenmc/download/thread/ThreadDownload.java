@@ -2,14 +2,11 @@ package union.xenfork.xenmc.download.thread;
 
 import cn.hutool.http.HttpDownloader;
 import org.gradle.api.logging.Logger;
-import union.xenfork.xenmc.download.StreamProgressImpl;
-import union.xenfork.xenmc.download.assets.Something;
-import union.xenfork.xenmc.extensions.MinecraftExtension;
+import union.xenfork.xenmc.over1_14_4.download.StreamProgressImpl;
+import union.xenfork.xenmc.over1_14_4.download.assets.Something;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author baka4n

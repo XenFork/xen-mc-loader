@@ -1,4 +1,4 @@
-package union.xenfork.xenmc.download.assets;
+package union.xenfork.xenmc.over1_14_4.download.assets;
 
 import com.google.gson.annotations.SerializedName;
 

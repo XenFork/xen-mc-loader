@@ -1,9 +1,6 @@
-package union.xenfork.xenmc.download.manifest;
+package union.xenfork.xenmc.over1_14_4.download.manifest;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.net.URL;
-import java.time.LocalDateTime;
 
 public class VersionGson {
     @SerializedName("id")

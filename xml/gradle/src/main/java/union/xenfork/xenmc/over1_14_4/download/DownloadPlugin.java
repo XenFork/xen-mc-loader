@@ -1,12 +1,11 @@
-package union.xenfork.xenmc.download;
+package union.xenfork.xenmc.over1_14_4.download;
 
-import cn.hutool.http.HttpDownloader;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.jetbrains.annotations.NotNull;
-import union.xenfork.xenmc.download.manifest.ManifestGson;
-import union.xenfork.xenmc.download.manifest.VersionGson;
-import union.xenfork.xenmc.download.minecraft.MinecraftVersionGson;
+import union.xenfork.xenmc.over1_14_4.download.manifest.ManifestGson;
+import union.xenfork.xenmc.over1_14_4.download.manifest.VersionGson;
+import union.xenfork.xenmc.over1_14_4.download.minecraft.MinecraftVersionGson;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
 import union.xenfork.xenmc.gradle.Utils;
@@ -44,5 +43,8 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         MinecraftExtension.versionSet = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.versionJsonFile)), MinecraftVersionGson.class);
         new DownloadAssets().apply(project, minecraft);
         new DownloadGame().apply(project, minecraft);
+        new DownloadLibraries().apply(project, minecraft);
+        System.out.printf("%.2fs%n", ((double) StreamProgressImpl.usingTime.get()) / 1000);
+        System.out.printf("v=%.2fmb/s%n", (double) (StreamProgressImpl.fileSize / 1024 / 1024) / ((double) StreamProgressImpl.usingTime.get()) / 1000);
     }
 }

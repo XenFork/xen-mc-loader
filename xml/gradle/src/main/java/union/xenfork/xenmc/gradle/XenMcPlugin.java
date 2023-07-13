@@ -3,10 +3,8 @@ package union.xenfork.xenmc.gradle;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
-import org.gradle.api.plugins.PluginAware;
-import org.gradle.internal.impldep.org.apache.ivy.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
-import union.xenfork.xenmc.download.DownloadPlugin;
+import union.xenfork.xenmc.over1_14_4.download.DownloadPlugin;
 import union.xenfork.xenmc.entrypoints.EntryPointsPlugin;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.extensions.XenMcExtension;
@@ -37,18 +35,23 @@ public class XenMcPlugin implements Plugin<Project> {
                 maven.setUrl("https://chinawaremc.github.io/maven-repo/");
                 maven.setName("mod loader maven");
             });
+            // 19w36a and+, 1.14.4 and+, is not Combat Test 3
+            _1144p(project, minecraft);
 
-            try {
-                new DownloadPlugin().apply(project, minecraft);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-//            actions(DownloadPlugin.class, project, minecraft);
-            actions(ReMappingPlugin.class, project, minecraft);
-            actions(EntryPointsPlugin.class, project, minecraft);
-            actions(MappingPlugin.class, project, minecraft);
         });
 
+    }
+
+    public void _1144p(Project project, MinecraftExtension minecraft) {
+        try {
+            new DownloadPlugin().apply(project, minecraft);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+//            actions(DownloadPlugin.class, project, minecraft);
+        actions(ReMappingPlugin.class, project, minecraft);
+        actions(EntryPointsPlugin.class, project, minecraft);
+        actions(MappingPlugin.class, project, minecraft);
     }
 
     public void actions(Class<? extends BootstrappedPluginProject> clazz,Project target, MinecraftExtension minecraft) {

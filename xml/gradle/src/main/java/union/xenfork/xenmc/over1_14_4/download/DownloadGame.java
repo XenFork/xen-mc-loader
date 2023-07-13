@@ -1,8 +1,8 @@
-package union.xenfork.xenmc.download;
+package union.xenfork.xenmc.over1_14_4.download;
 
 import cn.hutool.http.HttpDownloader;
 import org.gradle.api.Project;
-import union.xenfork.xenmc.download.minecraft.MinecraftVersionGson;
+import union.xenfork.xenmc.over1_14_4.download.minecraft.MinecraftVersionGson;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
 import union.xenfork.xenmc.gradle.Utils;
@@ -54,6 +54,5 @@ public class DownloadGame implements BootstrappedPluginProject {
                 throw new RuntimeException("fail to verify server mapping");
             }
         }
-        System.out.println(((double) StreamProgressImpl.usingTime.get())/ 1000 + "s");
     }
 }

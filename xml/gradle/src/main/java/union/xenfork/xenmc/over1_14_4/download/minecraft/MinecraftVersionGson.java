@@ -1,8 +1,8 @@
-package union.xenfork.xenmc.download.minecraft;
+package union.xenfork.xenmc.over1_14_4.download.minecraft;
 
 import com.google.gson.annotations.SerializedName;
-import union.xenfork.xenmc.download.minecraft.library.Libraries;
-import union.xenfork.xenmc.download.minecraft.logging.Logging;
+import union.xenfork.xenmc.over1_14_4.download.minecraft.library.Libraries;
+import union.xenfork.xenmc.over1_14_4.download.minecraft.logging.Logging;
 
 import java.util.ArrayList;
 

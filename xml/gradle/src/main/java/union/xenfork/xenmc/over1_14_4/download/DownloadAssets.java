@@ -1,12 +1,10 @@
-package union.xenfork.xenmc.download;
+package union.xenfork.xenmc.over1_14_4.download;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.http.HttpDownloader;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.FileUtils;
 import org.gradle.api.Project;
-import org.gradle.api.logging.Logger;
-import union.xenfork.xenmc.download.assets.Something;
+import union.xenfork.xenmc.over1_14_4.download.assets.Something;
 import union.xenfork.xenmc.download.thread.Downloads;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
