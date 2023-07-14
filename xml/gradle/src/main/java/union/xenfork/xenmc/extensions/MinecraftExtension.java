@@ -1,7 +1,7 @@
 package union.xenfork.xenmc.extensions;
 
-import union.xenfork.xenmc.over1_14_4.download.manifest.ManifestGson;
-import union.xenfork.xenmc.over1_14_4.download.minecraft.MinecraftVersionGson;
+import union.xenfork.xenmc.step.s1.over1_14_4.download.manifest.ManifestGson;
+import union.xenfork.xenmc.step.s1.over1_14_4.download.minecraft.MinecraftVersionGson;
 
 import java.io.File;
 import java.util.ArrayList;

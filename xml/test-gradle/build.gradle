@@ -1,35 +1,35 @@
-//buildscript {
-//    repositories {
-//        maven { url 'https://www.jitpack.io' }
-//        maven { url 'https://maven.fabricmc.net/' }
-//        mavenCentral()
-//        jcenter()
-//        mavenLocal()
-//    }
-//    dependencies {
-//        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.1'
-//
-//    }
-//}
-//
-//plugins {
-//    id 'java-library'
-//    id 'idea'
-//}
-//
-//repositories {
-//    maven { url 'https://www.jitpack.io' }
-//    maven { url 'https://maven.fabricmc.net/' }
-//    mavenCentral()
-//    mavenLocal()
-//}
-//
-//apply plugin: 'xml-gradle'
-//
-//minecraft {
-//    version = "1.20.1"
-//}
-//
-//xenmc {
-//    threadDownloadCount = 15
-//}
+buildscript {
+    repositories {
+        maven { url 'https://www.jitpack.io' }
+        maven { url 'https://maven.fabricmc.net/' }
+        mavenCentral()
+        jcenter()
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.1'
+
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'idea'
+}
+
+repositories {
+    maven { url 'https://www.jitpack.io' }
+    maven { url 'https://maven.fabricmc.net/' }
+    mavenCentral()
+    mavenLocal()
+}
+
+apply plugin: 'xml-gradle'
+
+minecraft {
+    version = "1.20.1"
+}
+
+xenmc {
+    threadDownloadCount = 15
+}

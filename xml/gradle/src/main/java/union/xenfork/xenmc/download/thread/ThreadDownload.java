@@ -2,8 +2,8 @@ package union.xenfork.xenmc.download.thread;
 
 import cn.hutool.http.HttpDownloader;
 import org.gradle.api.logging.Logger;
-import union.xenfork.xenmc.over1_14_4.download.StreamProgressImpl;
-import union.xenfork.xenmc.over1_14_4.download.assets.Something;
+import union.xenfork.xenmc.step.s1.over1_14_4.download.StreamProgressImpl;
+import union.xenfork.xenmc.step.s1.over1_14_4.download.assets.Something;
 
 import java.io.File;
 import java.util.ArrayList;

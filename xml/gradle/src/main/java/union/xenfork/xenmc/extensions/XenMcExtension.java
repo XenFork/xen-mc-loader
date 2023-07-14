@@ -13,4 +13,6 @@ public class XenMcExtension {
     public Integer threadDownloadCount;// thread download -> thread count, default 3 thread
     public File cacheHome;
     public File projectHome;
+    public String remapTypesOf;
+    public File remapTypesDir;
 }

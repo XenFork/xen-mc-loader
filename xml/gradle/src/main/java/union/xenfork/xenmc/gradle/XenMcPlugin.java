@@ -4,13 +4,15 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.jetbrains.annotations.NotNull;
-import union.xenfork.xenmc.over1_14_4.download.DownloadPlugin;
-import union.xenfork.xenmc.entrypoints.EntryPointsPlugin;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.extensions.XenMcExtension;
-import union.xenfork.xenmc.mapping.MappingPlugin;
-import union.xenfork.xenmc.over1_14_4.download.minecraft.library.Libraries;
-import union.xenfork.xenmc.remapping.ReMappingPlugin;
+import union.xenfork.xenmc.step.Select;
+import union.xenfork.xenmc.step.s1.over1_14_4.download.DownloadPlugin;
+import union.xenfork.xenmc.step.s1.over1_14_4.download.minecraft.library.Libraries;
+import union.xenfork.xenmc.step.s2.TableRWD;
+import union.xenfork.xenmc.step.s3.remapping.ReMappingPlugin;
+import union.xenfork.xenmc.step.s4.entrypoints.EntryPointsPlugin;
+import union.xenfork.xenmc.step.s5.mapping.MappingPlugin;
 
 import java.io.File;
 
@@ -22,6 +24,7 @@ public class XenMcPlugin implements Plugin<Project> {
         MinecraftExtension minecraft = target.getExtensions().create("minecraft", MinecraftExtension.class);
         XenMcExtension xenmc = target.getExtensions().create("xenmc", XenMcExtension.class);
         target.afterEvaluate(project -> {
+            if (minecraft.version == null) throw new NullPointerException("please set minecraft version");
             xenmc.project = project;
             if (xenmc.cacheHome == null) {
                 xenmc.cacheHome = new File(project.getGradle().getGradleUserHomeDir(), "caches%sxenmc".formatted(separator));
@@ -29,8 +32,14 @@ public class XenMcPlugin implements Plugin<Project> {
             if (xenmc.projectHome == null) {
                 xenmc.projectHome = project.getProjectDir();
             }
+            if (xenmc.remapTypesOf == null) {
+                xenmc.remapTypesOf = "csv";
+            }
+            if (xenmc.remapTypesDir == null) {
+                xenmc.remapTypesDir = new File(xenmc.cacheHome, "remapof" + separator + minecraft.version);
+            }
             minecraft.xenmc = xenmc;
-            if (minecraft.version == null) throw new NullPointerException("please set minecraft version");
+
             if (minecraft.xenmc.threadDownloadCount == null) minecraft.xenmc.threadDownloadCount = 10;
             RepositoryHandler repositories = project.getRepositories();
             repositories.maven(maven -> {
@@ -55,19 +64,29 @@ public class XenMcPlugin implements Plugin<Project> {
 
     }
 
+    /**
+     * @apiNote 分步骤执行
+     * @apiNote  第一步,依次下载 版本检索器， 资源检索器, 下载资源，下载lib库
+     * @param project project
+     * @param minecraft minecraft settings
+     */
     public void _1144p(Project project, MinecraftExtension minecraft) {
         try {
-            new DownloadPlugin().apply(project, minecraft);
-            new ReMappingPlugin().apply(project, minecraft);
-            new EntryPointsPlugin().apply(project, minecraft);
-            new MappingPlugin().apply(project, minecraft);
+            for (Select value : Select.values()) {
+                value.apply(project, minecraft);
+            }
+//            new DownloadPlugin().apply(project, minecraft);
+//            new TableRWD().apply(project, minecraft);
+//            new ReMappingPlugin().apply(project, minecraft);
+//            new EntryPointsPlugin().apply(project, minecraft);
+//            new MappingPlugin().apply(project, minecraft);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 //            actions(DownloadPlugin.class, project, minecraft);
 
     }
-
+    @Deprecated(forRemoval = true, since = "this reflection is deprecated")
     public void actions(Class<? extends BootstrappedPluginProject> clazz,Project target, MinecraftExtension minecraft) {
         try {
             clazz.getConstructor().newInstance().apply(target, minecraft);

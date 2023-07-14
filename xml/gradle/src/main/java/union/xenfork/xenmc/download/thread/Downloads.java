@@ -1,7 +1,7 @@
 package union.xenfork.xenmc.download.thread;
 
 import org.gradle.api.logging.Logger;
-import union.xenfork.xenmc.over1_14_4.download.assets.Something;
+import union.xenfork.xenmc.step.s1.over1_14_4.download.assets.Something;
 
 
 import java.io.File;
