@@ -14,6 +14,8 @@ import union.xenfork.xenmc.remapping.ReMappingPlugin;
 
 import java.io.File;
 
+import static java.io.File.separator;
+
 public class XenMcPlugin implements Plugin<Project> {
     @Override
     public void apply(@NotNull Project target) {
@@ -22,7 +24,10 @@ public class XenMcPlugin implements Plugin<Project> {
         target.afterEvaluate(project -> {
             xenmc.project = project;
             if (xenmc.cacheHome == null) {
-                xenmc.cacheHome = new File(project.getGradle().getGradleUserHomeDir(), "caches%sxenmc".formatted(File.separator));
+                xenmc.cacheHome = new File(project.getGradle().getGradleUserHomeDir(), "caches%sxenmc".formatted(separator));
+            }
+            if (xenmc.projectHome == null) {
+                xenmc.projectHome = project.getProjectDir();
             }
             minecraft.xenmc = xenmc;
             if (minecraft.version == null) throw new NullPointerException("please set minecraft version");
@@ -37,15 +42,12 @@ public class XenMcPlugin implements Plugin<Project> {
                 maven.setUrl("https://chinawaremc.github.io/maven-repo/");
                 maven.setName("mod loader maven");
             });
-            // 19w36a and+, 1.14.4 and+, is not Combat Test 3
             _1144p(project, minecraft);
 //            project.getDependencies().add("implementation", project.getDependencies().create(project.files(MinecraftExtension.librariesDir)));
             for (Libraries library : MinecraftExtension.versionSet.libraries) {
                 if (library.rules != null) {
                     continue;
                 }
-
-
                 project.getDependencies().add("implementation", library.name);
 
             }
@@ -56,13 +58,14 @@ public class XenMcPlugin implements Plugin<Project> {
     public void _1144p(Project project, MinecraftExtension minecraft) {
         try {
             new DownloadPlugin().apply(project, minecraft);
+            new ReMappingPlugin().apply(project, minecraft);
+            new EntryPointsPlugin().apply(project, minecraft);
+            new MappingPlugin().apply(project, minecraft);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 //            actions(DownloadPlugin.class, project, minecraft);
-        actions(ReMappingPlugin.class, project, minecraft);
-        actions(EntryPointsPlugin.class, project, minecraft);
-        actions(MappingPlugin.class, project, minecraft);
+
     }
 
     public void actions(Class<? extends BootstrappedPluginProject> clazz,Project target, MinecraftExtension minecraft) {

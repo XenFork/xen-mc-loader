@@ -1,6 +1,7 @@
 allprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
+    apply plugin: "idea"
     group = maven_group
 
     targetCompatibility = sourceCompatibility = JavaVersion.VERSION_20
@@ -8,5 +9,7 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven { url 'https://www.jitpack.io' }
+        maven { url 'https://maven.fabricmc.net/' }
     }
 }
