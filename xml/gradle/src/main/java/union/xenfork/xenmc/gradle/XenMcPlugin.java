@@ -58,7 +58,6 @@ public class XenMcPlugin implements Plugin<Project> {
                     continue;
                 }
                 project.getDependencies().add("implementation", library.name);
-
             }
         });
 

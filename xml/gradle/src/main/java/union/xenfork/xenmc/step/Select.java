@@ -9,7 +9,7 @@ import union.xenfork.xenmc.step.s3.remapping.ReMappingPlugin;
 import union.xenfork.xenmc.step.s4.entrypoints.EntryPointsPlugin;
 import union.xenfork.xenmc.step.s5.mapping.MappingPlugin;
 
-public enum Select {
+public enum Select implements BootstrappedPluginProject {
     step1(new DownloadPlugin()),
     step2(new TableRWD()),
     step3(new ReMappingPlugin()),
@@ -21,6 +21,7 @@ public enum Select {
         this.project = project;
     }
 
+    @Override
     public void apply(Project project, MinecraftExtension minecraft) throws Exception {
         this.project.apply(project, minecraft);
     }

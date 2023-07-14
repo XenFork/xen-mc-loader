@@ -15,6 +15,37 @@ repositories {
     }
 }
 
+sourceSets {
+    client {
+        java {
+            srcDirs = [
+                    'src/client/java',
+                    'src/main/java'
+            ]
+        }
+        resources {
+            srcDirs = [
+                    'src/client/resources',
+                    'src/main/resources'
+            ]
+        }
+    }
+    server {
+        java {
+            srcDirs = [
+                    'src/server/java',
+                    'src/main/java'
+            ]
+        }
+        resources {
+            srcDirs = [
+                    'src/server/resources',
+                    'src/main/resources'
+            ]
+        }
+    }
+}
+
 dependencies {
     implementation gradleApi()
     //noinspection VulnerableLibrariesLocal
