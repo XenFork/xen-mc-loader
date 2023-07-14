@@ -15,7 +15,7 @@ xen-mc-loader
 ```
 
 # repositories
-- all
+- **
   - ## homepage
     - https://github.com/XenFork/xen-mc-loader/
   - ## issues
