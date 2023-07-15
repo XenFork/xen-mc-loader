@@ -46,6 +46,10 @@ sourceSets {
     }
 }
 
+compileJava {
+
+}
+
 dependencies {
     implementation gradleApi()
     //noinspection VulnerableLibrariesLocal
