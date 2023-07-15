@@ -54,7 +54,13 @@ public class XenMcPlugin implements Plugin<Project> {
                 maven.setUrl("https://chinawaremc.github.io/maven-repo/");
                 maven.setName("mod loader maven");
             });
-            _1144p(project, minecraft);
+            for (Select value : Select.values()) {
+                try {
+                    value.apply(project, minecraft);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
 //            project.getDependencies().add("implementation", project.getDependencies().create(project.files(MinecraftExtension.librariesDir)));
             for (Libraries library : MinecraftExtension.versionSet.libraries) {
                 if (library.rules != null) {
@@ -77,11 +83,9 @@ public class XenMcPlugin implements Plugin<Project> {
      * @param project project
      * @param minecraft minecraft settings
      */
-    public void _1144p(Project project, MinecraftExtension minecraft) {
+    public void _1144p(Project project, @NotNull MinecraftExtension minecraft) {
         try {
-            for (Select value : Select.values()) {
-                value.apply(project, minecraft);
-            }
+
 //            new DownloadPlugin().apply(project, minecraft);
 //            new TableRWD().apply(project, minecraft);
 //            new ReMappingPlugin().apply(project, minecraft);

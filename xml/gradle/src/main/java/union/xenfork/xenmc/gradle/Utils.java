@@ -5,6 +5,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.gradle.api.Project;
+import org.gradle.api.logging.Logger;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.extensions.XenMcExtension;
 
@@ -23,6 +24,12 @@ public class Utils {
     public static void setupMessagePrefix(Project project, MinecraftExtension minecraft) {
         project.getLogger().lifecycle("--------------------------");
         project.getLogger().lifecycle("setup %d:".formatted(minecraft.setup));
+        minecraft.setup++;
+    }
+
+    public static void setupMessagePrefix(Logger logger, MinecraftExtension minecraft) {
+        logger.lifecycle("--------------------------");
+        logger.lifecycle("setup %d:".formatted(minecraft.setup));
         minecraft.setup++;
     }
 

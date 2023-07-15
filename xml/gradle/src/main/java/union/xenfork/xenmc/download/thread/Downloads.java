@@ -1,6 +1,7 @@
 package union.xenfork.xenmc.download.thread;
 
 import org.gradle.api.logging.Logger;
+import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.assets.Something;
 
 
@@ -14,14 +15,14 @@ public class Downloads {
     private final File dir;
     private Logger logger;
 
-    public static void downloads(Map<String, Map<String, Something>> assetsLoader, String assets, File dir, int i, Logger logger) {
+    public static void downloads(Map<String, Map<String, Something>> assetsLoader, String assets, File dir, int i, Logger logger, MinecraftExtension minecraft) {
         Downloads downloads = new Downloads(assets, dir, logger);
         Map<String, Something> somethingMap = assetsLoader.get("objects");
         String[] strings = somethingMap.keySet().toArray(new String[0]);
         for (int j = 0; j < somethingMap.size(); j+=i) {
             for (int k = 0; k < i; k++) {
                 if (!downloads.threadDownloads.containsKey(k)) {
-                    downloads.threadDownloads.put(k, new ThreadDownload(assets, dir, logger));
+                    downloads.threadDownloads.put(k, new ThreadDownload(assets, dir, logger, minecraft));
                 }
                 if (strings.length <= j) {
                     break;
@@ -48,8 +49,8 @@ public class Downloads {
         });
     }
 
-    public void add(int i ,Something... somethings) {
-        ThreadDownload value = new ThreadDownload(assets, dir, logger);
+    public void add(int i, MinecraftExtension minecraft, Something... somethings) {
+        ThreadDownload value = new ThreadDownload(assets, dir, logger, minecraft);
         for (Something something : somethings) {
             value.add(something);
         }
