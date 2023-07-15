@@ -119,6 +119,12 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         if (!MinecraftExtension.manifestFile.exists())
             downloadManifest(logger, minecraft);
         MinecraftExtension.manifest = gson.fromJson(new BufferedReader(new FileReader(MinecraftExtension.manifestFile)), ManifestGson.class);
+        if (minecraft.version == null) {
+            minecraft.version = MinecraftExtension.manifest.latest.release;
+        }
+        if (MinecraftExtension.manifest.versions.stream().filter(versionGson -> versionGson.id.equals(minecraft.version)).toList().isEmpty()) {
+            throw new RuntimeException("The version you described does not exist");
+        }
         if (!MinecraftExtension.versionJsonFile.exists()) {
             downloadVersionSelect(logger, minecraft);
         }

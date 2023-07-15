@@ -27,7 +27,7 @@ public class XenMcPlugin implements Plugin<Project> {
         MinecraftExtension minecraft = target.getExtensions().create("minecraft", MinecraftExtension.class);
         XenMcExtension xenmc = target.getExtensions().create("xenmc", XenMcExtension.class);
         target.afterEvaluate(project -> {
-            if (minecraft.version == null) throw new NullPointerException("please set minecraft version");
+//            if (minecraft.version == null) throw new NullPointerException("please set minecraft version");
             xenmc.project = project;
             if (xenmc.cacheHome == null) {
                 xenmc.cacheHome = new File(project.getGradle().getGradleUserHomeDir(), "caches%sxenmc".formatted(separator));
