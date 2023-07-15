@@ -1,16 +1,7 @@
 package union.xenfork.xenmc.step.s1.over1_14_4.download;
 
 import cn.hutool.core.io.StreamProgress;
-import cn.hutool.http.HttpConnection;
-import cn.hutool.http.HttpDownloader;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResource;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class StreamProgressImpl implements StreamProgress {
