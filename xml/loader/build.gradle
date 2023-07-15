@@ -11,10 +11,50 @@ plugins {
 
 apply plugin: 'xml-gradle'
 
+dependencies {
+    api 'io.ib67.kiwi:core:0.4.1'
+    api 'io.ib67.kiwi:collection:0.4.1'
+    implementation 'org.projectlombok:lombok:1.18.26'
+    api 'org.slf4j:slf4j-api:2.0.6'
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.0.1'
+    compileOnly 'org.jetbrains:annotations:23.0.0'
+}
+
 minecraft {
     version = "1.20.1"
 }
 
 xenmc {
     threadDownloadCount = 15
+}
+
+sourceSets {
+    client {
+        java {
+            srcDirs = [
+                    'src/client/java',
+                    'src/main/java'
+            ]
+        }
+        resources {
+            srcDirs = [
+                    'src/client/resources',
+                    'src/main/resources'
+            ]
+        }
+    }
+    server {
+        java {
+            srcDirs = [
+                    'src/server/java',
+                    'src/main/java'
+            ]
+        }
+        resources {
+            srcDirs = [
+                    'src/server/resources',
+                    'src/main/resources'
+            ]
+        }
+    }
 }
