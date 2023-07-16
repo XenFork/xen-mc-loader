@@ -36,9 +36,6 @@ public class XenMcPlugin implements Plugin<Project> {
             if (xenmc.projectHome == null) {
                 xenmc.projectHome = project.getProjectDir();
             }
-            if (xenmc.isLoader == null) {
-                xenmc.setIsLoader(false);
-            }
             if (xenmc.resourcesHome == null) {
                 xenmc.resourcesHome = xenmc.projectHome.toPath().resolve("src/main/resources").toFile();
             }

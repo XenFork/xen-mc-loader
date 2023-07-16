@@ -27,7 +27,7 @@ public class XenMcExtension {
 
     public boolean getIsLoader() {
         if (this.isLoader == null) {
-            this.isLoader = new AtomicBoolean();
+            return false;
         }
         return isLoader.get();
     }

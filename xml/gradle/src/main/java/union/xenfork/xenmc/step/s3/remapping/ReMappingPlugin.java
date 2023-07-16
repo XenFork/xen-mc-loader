@@ -14,6 +14,9 @@ public class ReMappingPlugin implements BootstrappedPluginProject {
     public void apply(Project project, MinecraftExtension minecraft) throws Exception {
         Utils.setupMessagePrefix(project, minecraft);
         project.getLogger().lifecycle("remapping minecraft");
+        if (minecraft.xenmc.getIsLoader()) {
+
+        }
 //        ClassReader classReader = new ClassReader(MinecraftExtension.clientGame.toPath(), minecraft.xenmc.projectHome.toPath().resolve("src/main/java"));
 //        classReader.cfr();
     }
