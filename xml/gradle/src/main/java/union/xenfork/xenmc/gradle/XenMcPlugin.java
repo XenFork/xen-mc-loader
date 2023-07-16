@@ -38,9 +38,6 @@ public class XenMcPlugin implements Plugin<Project> {
             if (xenmc.remapTypesOf == null) {
                 xenmc.remapTypesOf = "csv";
             }
-            if (xenmc.remapTypesDir == null) {
-                xenmc.remapTypesDir = new File(xenmc.cacheHome, "remapof" + separator + minecraft.version);
-            }
             minecraft.xenmc = xenmc;
 
             if (minecraft.xenmc.threadDownloadCount == null) minecraft.xenmc.threadDownloadCount = 10;

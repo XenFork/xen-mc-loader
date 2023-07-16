@@ -28,9 +28,12 @@ public class ClassReader {
     // 存放字节码
     private HashMap<String,byte[]> classByteMap = new HashMap<>();
 
-    public ClassReader(Path fileJar, Path outDir) {
+    public ClassReader(Path fileJar, Path outDir) throws IOException {
         this.fileJar = fileJar;
         if (Files.isDirectory(outDir)) {
+            this.outDir = outDir;
+        } else if (!Files.exists(outDir)) {
+            Files.createDirectories(outDir);
             this.outDir = outDir;
         } else {
             this.outDir = outDir.getParent();
@@ -39,6 +42,7 @@ public class ClassReader {
 
 
 
+    @SuppressWarnings("UnusedReturnValue")
     public Long cfr() {
 
         Long start = System.currentTimeMillis();

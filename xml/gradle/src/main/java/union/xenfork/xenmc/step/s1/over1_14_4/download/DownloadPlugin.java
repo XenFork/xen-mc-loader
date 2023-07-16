@@ -104,17 +104,14 @@ public class DownloadPlugin implements BootstrappedPluginProject {
     public void apply(Project project, @NotNull MinecraftExtension minecraft) throws Exception {
         Logger logger = project.getLogger();
         MinecraftExtension.manifestFile = new File(minecraft.xenmc.cacheHome, "manifest" + File.separator + "version_manifest.json");
-        MinecraftExtension.versionJsonFile = new File(minecraft.xenmc.cacheHome, "versions" + File.separator + minecraft.version + ".json");
+
         MinecraftExtension.assetsDir = new File(minecraft.xenmc.cacheHome, "assets");
 
         MinecraftExtension.assetsObjectsDir = new File(MinecraftExtension.assetsDir, "objects");
         MinecraftExtension.assetsVirtual = new File(MinecraftExtension.assetsDir, "virtual");
         MinecraftExtension.game = new File(minecraft.xenmc.cacheHome, "game");
         MinecraftExtension.mapping = new File(minecraft.xenmc.cacheHome, "mapping");
-        MinecraftExtension.clientGame = new File(MinecraftExtension.game, minecraft.version + File.separator + minecraft.version + "-client.jar");
-        MinecraftExtension.clientMapping = new File(MinecraftExtension.mapping, minecraft.version + File.separator + minecraft.version + "-client.txt");
-        MinecraftExtension.serverGame = new File(MinecraftExtension.game,minecraft.version + File.separator + minecraft.version + "-server.jar");
-        MinecraftExtension.serverMapping = new File(MinecraftExtension.mapping,minecraft.version + File.separator + minecraft.version + "-server.txt");
+
         MinecraftExtension.librariesDir = new File(minecraft.xenmc.cacheHome, "libraries");
         if (!MinecraftExtension.manifestFile.exists())
             downloadManifest(logger, minecraft);
@@ -122,6 +119,11 @@ public class DownloadPlugin implements BootstrappedPluginProject {
         if (minecraft.version == null) {
             minecraft.version = MinecraftExtension.manifest.latest.release;
         }
+        MinecraftExtension.clientGame = new File(MinecraftExtension.game, minecraft.version + File.separator + minecraft.version + "-client.jar");
+        MinecraftExtension.clientMapping = new File(MinecraftExtension.mapping, minecraft.version + File.separator + minecraft.version + "-client.txt");
+        MinecraftExtension.serverGame = new File(MinecraftExtension.game,minecraft.version + File.separator + minecraft.version + "-server.jar");
+        MinecraftExtension.serverMapping = new File(MinecraftExtension.mapping,minecraft.version + File.separator + minecraft.version + "-server.txt");
+        MinecraftExtension.versionJsonFile = new File(minecraft.xenmc.cacheHome, "versions" + File.separator + minecraft.version + ".json");
         if (MinecraftExtension.manifest.versions.stream().filter(versionGson -> versionGson.id.equals(minecraft.version)).toList().isEmpty()) {
             throw new RuntimeException("The version you described does not exist");
         }
@@ -163,7 +165,6 @@ public class DownloadPlugin implements BootstrappedPluginProject {
                 downloadFile(library.downloads.artifact.url, namePath, 3000, new StreamProgressImpl(library.downloads.artifact.url));
             }
             MinecraftExtension.librariesPaths.add(namePath);
-
         }
         if (preStartDownload.get()) {
             System.out.printf("%.2fs%n", ((double) StreamProgressImpl.usingTime.get()) / 1000);
