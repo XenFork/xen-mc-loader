@@ -22,6 +22,7 @@ minecraft {
 
 xenmc {
     threadDownloadCount = 15
+    isLoader = true
 }
 
 sourceSets {

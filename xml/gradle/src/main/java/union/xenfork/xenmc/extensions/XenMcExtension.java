@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class XenMcExtension {
     public Project project;
@@ -15,4 +16,21 @@ public class XenMcExtension {
     public File projectHome;
     public String remapTypesOf;
     public File remapTypesDir;
+    public AtomicBoolean isLoader;
+
+    public void setIsLoader(boolean isLoader) {
+        if (this.isLoader == null) {
+            this.isLoader = new AtomicBoolean();
+        }
+        this.isLoader.set(isLoader);
+    }
+
+    public boolean getIsLoader() {
+        if (this.isLoader == null) {
+            this.isLoader = new AtomicBoolean();
+        }
+        return isLoader.get();
+    }
+
+    public File resourcesHome;
 }
