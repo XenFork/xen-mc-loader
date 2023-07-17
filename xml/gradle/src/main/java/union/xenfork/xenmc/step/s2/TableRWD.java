@@ -29,7 +29,8 @@ public class TableRWD implements BootstrappedPluginProject {
 //        new ClassReader(MinecraftExtension.clientGame.toPath(), new File(MinecraftExtension.game, "client").toPath()).cfr();
         MappingTableToXml mappingTableToXml = new MappingTableToXml();
         if (minecraft.xenmc.remapTypesOf.equals("xml")) {
-            File file = new File(minecraft.xenmc.remapTypesDir, "xenmc.xml");
+            File file = new File(minecraft.xenmc.resourcesHome, "xenmc.xml");
+            File dest = new File(minecraft.xenmc.remapTypesDir, "xenmc.xml");
             List<String> lines = FileUtil.readLines(MinecraftExtension.clientMapping, StandardCharsets.UTF_8);
             if (minecraft.xenmc.getIsLoader()) {
                 if (!file.exists()) {
@@ -109,10 +110,11 @@ public class TableRWD implements BootstrappedPluginProject {
 
                     XmlUtil.toFile(xml, String.valueOf(file));
                 }
-                FileUtil.copyFile(file, new File(minecraft.xenmc.resourcesHome, "xenmc.xml"), StandardCopyOption.REPLACE_EXISTING);
+
+                FileUtil.copyFile(file, dest, StandardCopyOption.REPLACE_EXISTING);
             } else {
                 BufferedInputStream in = new BufferedInputStream(Objects.requireNonNull(this.getClass().getResourceAsStream("xenmc.xml")));
-                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dest));
                 out.write(in.readAllBytes());
                 out.close();
                 in.close();
