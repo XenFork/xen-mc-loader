@@ -101,9 +101,22 @@ public class MappingTableToXml {
                         methodSrgMap.containsKey(currentCleanClass) ?
                                 methodSrgMap.get(currentCleanClass) :
                                 new XenBiMap<>(new HashMap<>());
-                XenBiMap<String, XenBiMap<String, ArrayList<String>>> cleanReturnArgs = entries.containsKey(obfName) ? entries.get(obfName) : new XenBiMap<>(new HashMap<>());
-                XenBiMap<String, ArrayList<String>> returnArgs = cleanReturnArgs.containsKey(cleanName) ? cleanReturnArgs.get(cleanName) : new XenBiMap<>(new HashMap<>());
-                ArrayList<String> args = returnArgs.containsKey(obfReturn) ? returnArgs.get(obfReturn) : new ArrayList<>(Arrays.stream(cleanArgs.split(",")).toList());
+                XenBiMap<String, XenBiMap<String, ArrayList<String>>> cleanReturnArgs =
+                        entries.containsKey(obfName) ?
+                                entries.get(obfName) :
+                                new XenBiMap<>(new HashMap<>());
+                XenBiMap<String, ArrayList<String>> returnArgs =
+                        cleanReturnArgs.containsKey(cleanName) ?
+                                cleanReturnArgs.get(cleanName) :
+                                new XenBiMap<>(new HashMap<>());
+                ArrayList<String> args =
+                        returnArgs.containsKey(obfReturn) ?
+                                returnArgs.get(obfReturn) :
+                                new ArrayList<>();
+                List<String> list = Arrays.stream(cleanArgs.split(",")).toList();
+                if (!(list.size() == 1 && list.get(0).isEmpty())) {
+                    args.addAll(list);
+                }
                 returnArgs.put(obfReturn, args);
                 cleanReturnArgs.put(cleanName, returnArgs);
                 entries.put(obfName, cleanReturnArgs);
