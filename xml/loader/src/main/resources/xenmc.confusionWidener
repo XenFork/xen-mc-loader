@@ -1,0 +1,8 @@
+# 注释为#
+# 类型, 重命名， 所在位置
+#类型有 class method field arg
+# 重命名为 类名/方法名、字段名，变量名
+# 继承有 类为空，方法为父类 class所在位置, 字段为class所在位置
+# name为 arg name的原来名字
+
+type   |   rename   | extends | name

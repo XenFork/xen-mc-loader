@@ -2,23 +2,14 @@ package union.xenfork.xenmc.gradle;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
-import org.gradle.api.tasks.compile.JavaCompile;
-import org.gradle.language.nativeplatform.internal.CompileTaskConfig;
 import org.jetbrains.annotations.NotNull;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.extensions.XenMcExtension;
 import union.xenfork.xenmc.step.Select;
-import union.xenfork.xenmc.step.s1.over1_14_4.download.DownloadPlugin;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.minecraft.library.Libraries;
-import union.xenfork.xenmc.step.s2.TableRWD;
-import union.xenfork.xenmc.step.s3.remapping.ReMappingPlugin;
-import union.xenfork.xenmc.step.s4.entrypoints.EntryPointsPlugin;
-import union.xenfork.xenmc.step.s5.mapping.MappingPlugin;
 
 import java.io.File;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.io.File.separator;
 
@@ -41,7 +32,7 @@ public class XenMcPlugin implements Plugin<Project> {
 
             }
             if (xenmc.remapTypesOf == null) {
-                xenmc.remapTypesOf = "xml";
+                xenmc.remapTypesOf = "confusionWidener";
             }
             minecraft.xenmc = xenmc;
 
