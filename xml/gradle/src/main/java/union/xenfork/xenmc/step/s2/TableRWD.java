@@ -60,7 +60,7 @@ public class TableRWD implements BootstrappedPluginProject {
                         javadoc.setAttribute("_0", "");
                         javadoc.setAttribute("_1", "");
                         Element field = xml.createElement("field");
-                        XenBiMap<String, XenBiMap<String, String>> entries = mappingTableToXml.getFieldSrgMap().containsKey(stringStringEntry.getKey()) ? mappingTableToXml.getFieldSrgMap().get(stringStringEntry.getKey()) : new XenBiMap<>(new HashMap<>());
+                        XenBiMap<String, XenBiMap<String, String>> entries = mappingTableToXml.fieldSrgMap().containsKey(stringStringEntry.getKey()) ? mappingTableToXml.fieldSrgMap().get(stringStringEntry.getKey()) : new XenBiMap<>(new HashMap<>());
                         for (var entry1 : entries) {
                             for (Map.Entry<String, String> entry2 : entry1.getValue()) {
                                 Element name1 = xml.createElement("name");
@@ -73,10 +73,32 @@ public class TableRWD implements BootstrappedPluginProject {
                                 name1.appendChild(javadoc1);
                                 field.appendChild(name1);
                             }
-
+                        }
+                        Element method = xml.createElement("method");
+                        XenBiMap<String, XenBiMap<String, XenBiMap<String, ArrayList<String>>>> entries1 = mappingTableToXml.methodSrgMap().containsKey(stringStringEntry.getKey()) ? mappingTableToXml.methodSrgMap().get(stringStringEntry.getKey()) : new XenBiMap<>(new HashMap<>());
+                        for (Map.Entry<String, XenBiMap<String, XenBiMap<String, ArrayList<String>>>> entries2 : entries1) {
+                            for (Map.Entry<String, XenBiMap<String, ArrayList<String>>> entries3 : entries2.getValue()) {
+                                for (Map.Entry<String, ArrayList<String>> entries4 : entries3.getValue()) {
+                                    Element name1 = xml.createElement("name");
+                                    name1.setAttribute("id", entries2.getKey());
+                                    name1.setAttribute("nature", entries3.getKey());
+                                    name1.setAttribute("type", entries4.getKey());
+                                    for (String s : entries4.getValue()) {
+                                        Element args = xml.createElement("args");
+                                        args.setAttribute("id", s);
+                                        Element javadoc1 = xml.createElement("javadoc");
+                                        javadoc1.setAttribute("_0", "");
+                                        javadoc1.setAttribute("_1", "");
+                                        args.appendChild(javadoc1);
+                                        name1.appendChild(args);
+                                    }
+                                    method.appendChild(name1);
+//                                    System.out.printf("%s:%s:%s:%n", entries2.getKey(), entries3.getKey(), entries4.getKey());
+                                }
+                            }
                         }
                         name.appendChild(field);
-
+                        name.appendChild(method);
                         name.appendChild(javadoc);
                         classes.appendChild(name);
                     }

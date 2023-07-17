@@ -1,7 +1,6 @@
 package union.xenfork.xenmc.read;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.map.BiMap;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.util.XenBiMap;
 
@@ -162,7 +161,11 @@ public class MappingTableToXml {
         return new XenBiMap<>(srgMap);
     }
 
-    public XenBiMap<String, XenBiMap<String, XenBiMap<String, String>>> getFieldSrgMap() {
+    public XenBiMap<String, XenBiMap<String, XenBiMap<String, String>>> fieldSrgMap() {
         return new XenBiMap<>(fieldSrgMap);
+    }
+
+    public XenBiMap<String, XenBiMap<String, XenBiMap<String, XenBiMap<String, ArrayList<String>>>>> methodSrgMap() {
+        return new XenBiMap<>(methodSrgMap);
     }
 }
