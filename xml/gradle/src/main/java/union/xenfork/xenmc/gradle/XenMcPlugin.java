@@ -38,9 +38,10 @@ public class XenMcPlugin implements Plugin<Project> {
             }
             if (xenmc.resourcesHome == null) {
                 xenmc.resourcesHome = xenmc.projectHome.toPath().resolve("src/main/resources").toFile();
+
             }
             if (xenmc.remapTypesOf == null) {
-                xenmc.remapTypesOf = "csv";
+                xenmc.remapTypesOf = "xml";
             }
             minecraft.xenmc = xenmc;
 
