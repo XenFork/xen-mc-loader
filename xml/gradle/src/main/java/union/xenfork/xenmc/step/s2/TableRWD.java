@@ -44,10 +44,6 @@ public class TableRWD implements BootstrappedPluginProject {
                     for (String pkg : packages_) {
                         Element name = xml.createElement("name");
                         name.setAttribute("id", pkg);
-                        Element javadoc = xml.createElement("javadoc");
-                        javadoc.setAttribute("_0", "");
-                        javadoc.setAttribute("_1", "");
-                        name.appendChild(javadoc);
                         packages.appendChild(name);
                     }
                     data.appendChild(packages);
@@ -57,9 +53,7 @@ public class TableRWD implements BootstrappedPluginProject {
                         Element name = xml.createElement("name");
                         name.setAttribute("id", stringStringEntry.getValue());
                         name.setAttribute("nature", stringStringEntry.getKey());
-                        Element javadoc = xml.createElement("javadoc");
-                        javadoc.setAttribute("_0", "");
-                        javadoc.setAttribute("_1", "");
+
                         Element field = xml.createElement("field");
                         XenBiMap<String, XenBiMap<String, String>> entries = mappingTableToXml.fieldSrgMap().containsKey(stringStringEntry.getKey()) ? mappingTableToXml.fieldSrgMap().get(stringStringEntry.getKey()) : new XenBiMap<>(new HashMap<>());
                         for (var entry1 : entries) {
@@ -68,10 +62,6 @@ public class TableRWD implements BootstrappedPluginProject {
                                 name1.setAttribute("id", entry1.getKey());
                                 name1.setAttribute("nature", entry2.getKey());
                                 name1.setAttribute("type", entry2.getValue());
-                                Element javadoc1 = xml.createElement("javadoc");
-                                javadoc1.setAttribute("_0", "");
-                                javadoc1.setAttribute("_1", "");
-                                name1.appendChild(javadoc1);
                                 field.appendChild(name1);
                             }
                         }
@@ -87,10 +77,6 @@ public class TableRWD implements BootstrappedPluginProject {
                                     for (String s : entries4.getValue()) {
                                         Element args = xml.createElement("args");
                                         args.setAttribute("id", s);
-                                        Element javadoc1 = xml.createElement("javadoc");
-                                        javadoc1.setAttribute("_0", "");
-                                        javadoc1.setAttribute("_1", "");
-                                        args.appendChild(javadoc1);
                                         name1.appendChild(args);
                                     }
                                     method.appendChild(name1);
@@ -100,7 +86,6 @@ public class TableRWD implements BootstrappedPluginProject {
                         }
                         name.appendChild(field);
                         name.appendChild(method);
-                        name.appendChild(javadoc);
                         classes.appendChild(name);
                     }
 
