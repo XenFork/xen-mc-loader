@@ -1,11 +1,9 @@
 package union.xenfork.xenmc.step.s5.mapping;
 
 import org.gradle.api.Project;
-import org.gradle.api.plugins.PluginAware;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
-import union.xenfork.xenmc.gradle.BootstrappedPlugin;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
-import union.xenfork.xenmc.gradle.Utils;
+import union.xenfork.xenmc.util.Utils;
 
 public class MappingPlugin implements BootstrappedPluginProject {
 

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import union.xenfork.xenmc.download.thread.Downloads;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
-import union.xenfork.xenmc.gradle.Utils;
+import union.xenfork.xenmc.util.Utils;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.assets.Something;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.manifest.ManifestGson;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.manifest.VersionGson;
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cn.hutool.http.HttpDownloader.downloadFile;
-import static union.xenfork.xenmc.gradle.Utils.gson;
+import static union.xenfork.xenmc.util.Utils.gson;
 
 public class DownloadPlugin implements BootstrappedPluginProject {
     public static AtomicBoolean preStartDownload = new AtomicBoolean(false);//判断是否进行过setupMessagePrefix()

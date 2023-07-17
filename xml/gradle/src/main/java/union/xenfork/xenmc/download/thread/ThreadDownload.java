@@ -3,7 +3,7 @@ package union.xenfork.xenmc.download.thread;
 import cn.hutool.http.HttpDownloader;
 import org.gradle.api.logging.Logger;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
-import union.xenfork.xenmc.gradle.Utils;
+import union.xenfork.xenmc.util.Utils;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.DownloadPlugin;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.StreamProgressImpl;
 import union.xenfork.xenmc.step.s1.over1_14_4.download.assets.Something;

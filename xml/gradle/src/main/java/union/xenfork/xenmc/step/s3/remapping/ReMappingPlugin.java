@@ -3,10 +3,7 @@ package union.xenfork.xenmc.step.s3.remapping;
 import org.gradle.api.Project;
 import union.xenfork.xenmc.extensions.MinecraftExtension;
 import union.xenfork.xenmc.gradle.BootstrappedPluginProject;
-import union.xenfork.xenmc.gradle.Utils;
-import union.xenfork.xenmc.read.ClassReader;
-
-import java.io.File;
+import union.xenfork.xenmc.util.Utils;
 
 public class ReMappingPlugin implements BootstrappedPluginProject {
 
