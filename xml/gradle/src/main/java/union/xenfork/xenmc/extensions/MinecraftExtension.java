@@ -21,6 +21,8 @@ public class MinecraftExtension {
     public static File assetsObjectsDir;
     public static File game;
     public static File clientGame;
+    public static File clientRemapJar;
+    public static File serverRemapJar;
     public static File serverGame;
     public static File mapping;
     public static File clientMapping;

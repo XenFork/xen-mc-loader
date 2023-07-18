@@ -8,7 +8,9 @@ allprojects {
 
     repositories {
         mavenLocal()
+        google()
         mavenCentral()
+        jcenter()
         maven { url 'https://www.jitpack.io' }
         maven { url 'https://maven.fabricmc.net/' }
     }

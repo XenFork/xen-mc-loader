@@ -131,21 +131,21 @@ public class Mapping {
     public Map<String, String> getMap(boolean nature) {
         Map<String, String> map = new HashMap<>();
         if (nature) {
-            map.putAll(classNatureObfMap.getInverse());
-        } else {
             map.putAll(classNatureObfMap);
+        } else {
+            map.putAll(classNatureObfMap.getInverse());
         }
         fieldNatureObfMap.forEach((k, v) -> {
-            String key = nature ? v : k;
-            String value = nature ? k : v;
+            String key = nature ? k : v;
+            String value = nature ? v : k;
             String obfClassName = key.substring(0, key.lastIndexOf("."));
             String obfFieldName = key.substring(key.lastIndexOf(".") + 1);
             map.put(obfClassName + "." + obfFieldName, value.substring(value.lastIndexOf(".") + 1));
         });
 
         methodNatureObfMap.forEach((k, v) -> {
-            String key = nature ? v : k;
-            String value = nature ? k : v;
+            String key = nature ? k : v;
+            String value = nature ? v : k;
             String obfLeft = key.split(" ")[0];
             String obfRight = key.split(" ")[1];
             String cleanLeft = value.split(" ")[0];

@@ -9,6 +9,8 @@ plugins {
     id 'idea'
 }
 
+version = "xml-ld-$loader_version"
+
 apply plugin: 'xml-gradle'
 
 dependencies {
@@ -52,6 +54,29 @@ sourceSets {
                     'src/server/resources',
                     'src/main/resources'
             ]
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    from sourceSets.client.allJava
+    from sourceSets.server.allJava
+    archiveClassifier.set('sources')
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+
+    publications {
+        java(MavenPublication) {
+            groupId project.group
+            artifactId project.name
+            version project.version
+            from components.java
+            artifact sourcesJar
         }
     }
 }
