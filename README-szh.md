@@ -1,3 +1,8 @@
+# 取名规则
+- Xenon Xen氙气
+- Xen Container -> gradle插件，氙气需要容器才能存储
+- Xenon lamps -> mod loader用电器
+- HID mod -> temp mod 氙气灯的前称
 # xen mc 模组加载器
 - 这个是一个类似于FabricMc和forgeMC的模组加载器，支持多种语言联合开发
 # function
