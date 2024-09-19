@@ -7,6 +7,9 @@ gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+minecraft/**
+
+!**/build.gradle.kts
 
 # Avoid ignore Gradle wrappper properties
 !gradle-wrapper.properties

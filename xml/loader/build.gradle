@@ -1,8 +1,8 @@
-buildscript {
-    dependencies {
-        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.1'
-    }
-}
+//buildscript {
+//    dependencies {
+//        classpath 'io.github.xenfork:xml-gradle:xml-gd-1.0.1.1'
+//    }
+//}
 
 plugins {
     id 'java-library'
@@ -11,21 +11,21 @@ plugins {
 
 version = "xml-ld-$loader_version"
 
-apply plugin: 'xml-gradle'
+// apply plugin: 'xml-gradle'
 
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.26'
     implementation "com.coditory.quark:quark-eventbus:0.0.6"
 }
 
-minecraft {
-//    version = "1.20.1"
-}
-
-xenmc {
-    threadDownloadCount = 15
-    isLoader = true
-}
+//minecraft {
+////    version = "1.20.1"
+//}
+//
+//xenmc {
+//    threadDownloadCount = 15
+//    isLoader = true
+//}
 
 sourceSets {
     client {
